@@ -11,7 +11,7 @@ if (domContainer === null) throw new Error("dom container is null.");
 
 ReactDOM.render(
 	<Provider store={store.store}>
-		<BrowserRouter basename="/">
+		<BrowserRouter>
 			<Routing />
 		</BrowserRouter>
 	</Provider>,
