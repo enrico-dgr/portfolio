@@ -1,5 +1,5 @@
-import express from 'express';
-import path from 'path';
+import express from "express";
+import path from "path";
 
 const app = express();
 
@@ -13,9 +13,9 @@ app.use(express.static("./build"));
  * @access  Public
  */
 app.get("*", async (_req: express.Request, res: express.Response) => {
-  res.sendFile(path.resolve(__dirname, "build", "index.html"));
+	res.sendFile(path.resolve(__dirname, "build", "index.html"));
 });
 
 app.listen(port, () => {
-  console.log(`Server listening at http://localhost:${port}`);
+	console.log(`Server listening at http://localhost:${port}`);
 });
