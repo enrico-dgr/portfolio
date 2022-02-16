@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; 
+    script-src 'self' 
+      https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/;
+    font-src https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/ 'self';
+    style-src 'self' 'unsafe-inline'; 
+    connect-src http://localhost:8000 'self'; 
+    img-src 'self' data: https://img.shields.io http://localhost:8000" >
+    <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+    <base href="/" />
+    <title>Enrico Di Grazia</title>
+  </head>
+  <body>
+    <div id="preload"></div>
+    <div id="react"></div>
+    <script src="./style.js"></script>
+    <script src="./index.js"></script>
+  </body>
+</html>
