@@ -4,7 +4,7 @@ import Routes from "../components/classComponents/SinglePageRouting/Routes";
 import Link from "../components/funcComponents/Link";
 import ROUTES from "../constants/routes";
 import Portfolio from "./Portfolio";
-import Presentation from "./Presentation";
+import Presentation from "./Presentation/Presentation";
 import SelfDescription from "./SelfDescription";
 
 class Homepage extends Component {
