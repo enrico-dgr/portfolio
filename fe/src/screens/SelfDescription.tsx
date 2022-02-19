@@ -1,14 +1,10 @@
 import React, { Component } from "react";
+import screenStyles from "../styles/screenStyles";
 
 class SelfDescription extends Component {
 	render() {
-		return <div style={styleContainer}>SelfDescription</div>;
+		return <div style={screenStyles.styleContainer}>SelfDescription</div>;
 	}
 }
-
-const styleContainer: React.HTMLAttributes<HTMLDivElement>["style"] = {
-	height: 300,
-	width: "100%",
-};
 
 export default SelfDescription;

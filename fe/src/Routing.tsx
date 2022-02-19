@@ -7,9 +7,9 @@ const Routing = () =>
 	useRoutes([
 		{
 			path: `${ROUTES.BASE}`,
-			element: <Navigate to={`${ROUTES.BASE}${ROUTES.HOMEPAGE}`} />,
+			element: <Navigate to={`${ROUTES.BASE}${ROUTES.HOMEPAGE.SELF}`} />,
 		},
-		{ path: `${ROUTES.BASE}${ROUTES.HOMEPAGE}`, element: <Homepage /> },
+		{ path: `${ROUTES.BASE}${ROUTES.HOMEPAGE.SELF}/*`, element: <Homepage /> },
 	]);
 
 export default Routing;

@@ -12,26 +12,25 @@ class Homepage extends Component {
 		return (
 			<div style={styleContainer}>
 				<header style={styleHeader}>
-					<Link to={""}>Home</Link>
-					<Link to={"presentation"}>Presentation</Link>
-					<Link to={"portfolio"}>Portfolio</Link>
+					<Link to={ROUTES.HOMEPAGE.PRESENTATION}>Presentation</Link>
+					<Link to={ROUTES.HOMEPAGE.PORTFOLIO}>Portfolio</Link>
+					<Link to={ROUTES.HOMEPAGE.ABOUT_ME}>About me</Link>
 				</header>
 				<div style={{ height: styleHeader?.height }}></div>
 
 				<Routes
-					basePath={`${ROUTES.BASE}${ROUTES.HOMEPAGE}`}
-					path={location.pathname}
+					basePath={`${ROUTES.BASE}${ROUTES.HOMEPAGE.SELF}`}
 					routes={[
 						{
-							path: "presentation",
+							path: ROUTES.HOMEPAGE.PRESENTATION,
 							element: <Presentation />,
 						},
 						{
-							path: "portfolio",
+							path: ROUTES.HOMEPAGE.PORTFOLIO,
 							element: <Portfolio />,
 						},
 						{
-							path: "self-description",
+							path: ROUTES.HOMEPAGE.ABOUT_ME,
 							element: <SelfDescription />,
 						},
 					]}

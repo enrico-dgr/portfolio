@@ -1,6 +1,11 @@
 const ROUTES = {
 	BASE: "/",
-	HOMEPAGE: "homepage/*",
+	HOMEPAGE: {
+		SELF: "homepage",
+		PRESENTATION: "presentation",
+		PORTFOLIO: "portfolio",
+		ABOUT_ME: "about-me",
+	},
 };
 
 export default ROUTES;
