@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import Routes from "../components/classComponents/SinglePageRouting/Routes";
 import Link from "../components/funcComponents/Link";
 import ROUTES from "../constants/routes";
-import Portfolio from "./Portfolio";
+import Portfolio from "./Portfolio/Portfolio";
 import Presentation from "./Presentation/Presentation";
 import SelfDescription from "./SelfDescription";
 

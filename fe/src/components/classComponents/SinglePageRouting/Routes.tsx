@@ -22,36 +22,40 @@ class Routes extends Component<Props, State> {
 		this.refScrollableContainer = React.createRef<HTMLDivElement>();
 
 		this.state = {
-			absolutePath: location.pathname,
+			absolutePath: this.props.basePath,
 			mappedRoutes: [],
 		};
 	}
 
 	refScrollableContainer;
 
-	shouldComponentUpdate = () => {
-		if (this.state.absolutePath !== location.pathname) {
+	scrollToPathname = () => {
+		const div = this.state.mappedRoutes.find(
+			(r) => r.absolutePath === location.pathname
+		)?.div;
+
+		if (!!div) {
+			div.scrollIntoView({ behavior: "smooth", inline: "start" });
+		}
+	};
+
+	shouldComponentUpdate = (_nextProps: Props, nextState: State) => {
+		if (
+			this.state.absolutePath !== location.pathname ||
+			this.state.absolutePath !== nextState.absolutePath
+		) {
 			return true;
 		}
 
 		return false;
 	};
 
-	componentDidUpdate = (_prevProps: Props, _prevState: State) => {
+	componentDidUpdate = (_prevProps: Props, prevState: State) => {
 		// changed location.pathname
-		if (
-			this.state.absolutePath !== location.pathname &&
-			!!this.refScrollableContainer.current
-		) {
-			const div = this.state.mappedRoutes.find(
-				(r) => r.absolutePath === location.pathname
-			)?.div;
-
-			if (!!div) {
-				div.scrollIntoView({ behavior: "smooth", inline: "start" });
-
-				this.setState({ absolutePath: location.pathname });
-			}
+		if (this.state.absolutePath !== location.pathname) {
+			this.setState({ absolutePath: location.pathname });
+		} else if (this.state.absolutePath !== prevState.absolutePath) {
+			this.scrollToPathname();
 		}
 	};
 
