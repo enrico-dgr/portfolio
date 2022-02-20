@@ -27,8 +27,9 @@ const styleLink: React.CSSProperties = {
 };
 
 const styleLinkHover: React.CSSProperties = {
-	color: "gray",
-	fontSize: 20,
+	textShadow: "0 0 10px rgba(40,0,255,0.2)",
+	color: "rgb(200,200,255)",
+	fontSize: 21,
 };
 
 export default Link;

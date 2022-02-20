@@ -1,5 +1,5 @@
-import React, { useRef, useState } from "react";
-import { animated, useSpring } from "@react-spring/three";
+import React, { useEffect, useRef, useState } from "react";
+import { animated, useSpring, config } from "@react-spring/three";
 import { Box3, Mesh, MeshStandardMaterial, Vector3 } from "three";
 import { MeshProps, useFrame } from "@react-three/fiber";
 
@@ -16,11 +16,13 @@ const Background = (props: MeshProps) => {
 	const [maxColumns, _setMaxColumns] = useState<number>(30);
 	const [radius, _setRadius] = useState<number>(0.02);
 	const [cubeHover, setCubeHover] = useState(false);
-	const switchHover = () => setCubeHover(!cubeHover);
+	const switchHover = () => setCubeHover((c) => !c);
 
 	// springs
 	const springsCube = useSpring({
 		color: cubeHover ? "blue" : "red",
+		scale: cubeHover ? 1.3 : 1,
+		config: config.wobbly,
 	});
 
 	// refs
@@ -103,13 +105,13 @@ const Background = (props: MeshProps) => {
 		}
 	});
 
+	useEffect(() => {
+		document.addEventListener("mousedown", switchHover);
+	}, []);
+
 	return (
 		<mesh {...props} ref={ref}>
-			<animated.mesh
-				onPointerEnter={switchHover}
-				onPointerLeave={switchHover}
-				ref={refSquare}
-			>
+			<animated.mesh ref={refSquare} scale={springsCube.scale.get()}>
 				<boxGeometry args={[0.6, 0.6, 0.6]} />
 				<meshStandardMaterial
 					attach="material"

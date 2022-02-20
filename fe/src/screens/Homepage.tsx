@@ -50,7 +50,8 @@ const styleContainer: React.HTMLAttributes<HTMLDivElement>["style"] = {
 
 const styleHeader: React.HTMLAttributes<HTMLHeadingElement>["style"] = {
 	alignItems: "center",
-	backgroundColor: "darkblue",
+	backgroundColor: "rgba(37, 0, 63,0.95)",
+	boxShadow: "1px 1px 18px rgba(37, 0, 63,0.95)",
 	display: "flex",
 	height: 45,
 	justifyContent: "space-around",
