@@ -2,6 +2,7 @@ import { Html, OrthographicCamera } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import React, { Component, Suspense } from "react";
 import screenStyles from "../../styles/screenStyles";
+import Background from "./Background";
 import DirectionalLight from "./DirectionalLight";
 
 import TextBlock from "./TextBlock";
@@ -23,7 +24,8 @@ class Portfolio extends Component {
 				<ambientLight color={"white"} />
 				<DirectionalLight />
 				<Suspense fallback={<Html center>Loading...</Html>}>
-					<TextBlock />
+					<Background position={[0, 0, -0.2]} renderOrder={0} />
+					<TextBlock position={[-4, 0, 0]} renderOrder={10} />
 				</Suspense>
 			</Canvas>
 		);

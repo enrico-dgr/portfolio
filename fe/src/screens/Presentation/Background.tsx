@@ -2,8 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useFrame } from "@react-three/fiber";
 import { useSpring, animated, config } from "@react-spring/three";
 import { Mesh } from "three";
-
-type Position = [x: number, y: number, z: number];
+import { Position } from "../../types/three";
 
 const generatePositions = (
 	numOfPositions: number,

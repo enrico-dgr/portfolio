@@ -1,10 +1,10 @@
-import { useFrame } from "@react-three/fiber";
+import { MeshProps, useFrame } from "@react-three/fiber";
 import React from "react";
 import { useRef } from "react";
 import { Mesh } from "three";
 import Text from "./Text";
 
-const TextBlock = () => {
+const TextBlock = (props: MeshProps) => {
 	const ref = useRef<Mesh>(null);
 
 	useFrame(({ clock }) => {
@@ -17,7 +17,7 @@ const TextBlock = () => {
 	});
 
 	return (
-		<mesh position={[-4, 0, 0]} ref={ref}>
+		<mesh {...props} ref={ref}>
 			<Text color={"white"} position={[0, 2.5, 0]} scale={3} text="For now," />
 			<Text
 				color={"gray"}
