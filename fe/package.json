@@ -7,8 +7,8 @@
 	"author": "enrico-dgr",
 	"scripts": {
 		"dev": "npx webpack serve",
-		"prebuild": "rimraf build",
-		"build": "npx webpack --config ./webpack.config.js",
+		"prebuild": "rimraf build && mkdir ./build && cp ./prodFiles/* ./build",
+		"build": "npx webpack --config ./webpack.prod.config.js",
 		"start": "ts-node ./index.ts"
 	},
 	"devDependencies": {
