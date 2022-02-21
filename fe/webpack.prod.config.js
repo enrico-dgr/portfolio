@@ -5,7 +5,6 @@ var HtmlWebpackPlugin = require("html-webpack-plugin");
 module.exports = {
 	mode: "production",
 	target: "web",
-	devtool: "nosources-source-map",
 	plugins: [
 		new HtmlWebpackPlugin({
 			template: "./src/index.html",
