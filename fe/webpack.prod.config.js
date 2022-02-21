@@ -3,8 +3,18 @@ var path = require("path");
 var HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
-	mode: "production",
+	mode: "development",
 	target: "web",
+	devtool: "source-map",
+	devServer: {
+		static: {
+			directory: path.join(__dirname, "./build"),
+		},
+		compress: true,
+		hot: true,
+		port: 9000,
+		historyApiFallback: true,
+	},
 	plugins: [
 		new HtmlWebpackPlugin({
 			template: "./src/index.html",
