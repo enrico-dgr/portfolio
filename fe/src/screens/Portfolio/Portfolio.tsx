@@ -2,7 +2,7 @@ import { Html, OrthographicCamera } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import React, { Component, Suspense } from "react";
 import screenStyles from "../../styles/screenStyles";
-import Background from "./Background";
+import Background from "./Background/Background";
 import DirectionalLight from "./DirectionalLight";
 
 import TextBlock from "./TextBlock";
