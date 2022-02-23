@@ -1,6 +1,6 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { animated } from "@react-spring/three";
-import { Mesh, MeshStandardMaterial, Vector3 } from "three";
+import { Mesh, MeshStandardMaterial, Vector2, Vector3 } from "three";
 import { useFrame } from "@react-three/fiber";
 import { positionToGridPosition3D } from "../../../utils/3dm";
 
@@ -9,9 +9,41 @@ import useRefs from "../../../hooks/useRefs";
 const radius = 0.02;
 const maxColumns = 30;
 
-const Dots = () => {
+type Props = {
+	/**
+	 * @default 0.5
+	 */
+	dotsRadius?: number;
+	/**
+	 * @default {Vector3(0,0,0)}
+	 */
+	position?: Vector3;
+	/**
+	 * @default {Vector2(1,1)}
+	 */
+	size?: Vector2;
+};
+
+const getNumOfSpheres = (radius: number, size: Vector2) => {
+	const nx = Math.floor(size.x / radius);
+	const ny = Math.floor(size.y / radius);
+	console.log(nx, ny);
+	return nx + ny;
+};
+
+const Dots = ({
+	dotsRadius = 0.5,
+	position = new Vector3(0, 0, 0),
+	size = new Vector2(1, 1),
+}: Props) => {
+	const num = getNumOfSpheres(dotsRadius, size);
+	const [lastNum, setLastNum] = useState<number>(num);
 	// refs
-	const [dotsRefs, addDotRef] = useRefs<Mesh>(600, null);
+	const [dotsRefs, addDotRef] = useRefs<Mesh>(num, null);
+
+	useEffect(() => {
+		setLastNum(num);
+	}, [num]);
 
 	// frames
 	useFrame(({ mouse, viewport }) => {
@@ -21,6 +53,14 @@ const Dots = () => {
 			0
 		);
 		const dotPos = new Vector3();
+
+		if (num > lastNum) {
+			for (let i = lastNum; i < num; i++) {
+				dotsRefs.push({ current: null });
+			}
+		} else if (lastNum > num) {
+			dotsRefs.splice(num);
+		}
 
 		// dots animations
 		dotsRefs.forEach((dot) => {
@@ -82,7 +122,7 @@ const Dots = () => {
 		);
 	}, []);
 
-	return <>{dotsRefs.map(spheresMap)}</>;
+	return <group position={position}>{dotsRefs.map(spheresMap)}</group>;
 };
 
 export default Dots;
