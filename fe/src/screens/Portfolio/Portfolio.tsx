@@ -27,7 +27,7 @@ class Portfolio extends Component {
 				<ambientLight color={"white"} />
 				<DirectionalLight />
 				<Suspense fallback={<Html center>Loading...</Html>}>
-					<Background position={[0, 0, -0.2]} renderOrder={0} />
+					<Background renderOrder={0} />
 					<TextBlock position={[-4, 0, 0]} renderOrder={10} />
 				</Suspense>
 			</Canvas>
