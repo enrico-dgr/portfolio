@@ -9,5 +9,6 @@
 	"license": "ISC",
 	"repository": {
 		"url": "https://github.com/enrico-dgr/portfolio"
-	}
+	},
+	"dependencies": {}
 }

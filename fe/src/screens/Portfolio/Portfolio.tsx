@@ -1,4 +1,4 @@
-import { Html, OrthographicCamera, Stats } from "@react-three/drei";
+import { Html, OrthographicCamera } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import React, { Component, Suspense } from "react";
 import screenStyles from "../../styles/screenStyles";
@@ -11,7 +11,6 @@ class Portfolio extends Component {
 	render() {
 		return (
 			<Canvas
-				style={screenStyles.styleContainer}
 				gl={{
 					powerPreference: "high-performance",
 					alpha: false,
@@ -19,10 +18,8 @@ class Portfolio extends Component {
 					stencil: false,
 					depth: false,
 				}}
+				style={screenStyles.styleContainer}
 			>
-				<Stats
-					showPanel={0} // Start-up panel (default=0)
-				/>
 				<OrthographicCamera position={[0, 0, 4]} />
 				<ambientLight color={"white"} />
 				<DirectionalLight />
