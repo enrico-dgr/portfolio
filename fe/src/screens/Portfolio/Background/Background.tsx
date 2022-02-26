@@ -18,8 +18,8 @@ const Background = (props: MeshProps) => {
 	// const { invalidate } = useThree();
 	// invalidate;
 	// refs
-	const ref = useRef<Mesh>(null);
-	const refSquare = useRef<Mesh>(null);
+	const ref = useRef<Mesh>(new Mesh());
+	const refSquare = useRef<Mesh>(new Mesh());
 
 	const [viewportSize] = useState({ current: new Vector2() });
 
@@ -62,7 +62,8 @@ const Background = (props: MeshProps) => {
 		};
 	}, [viewportSize.current.x]);
 
-	const getSize = () => viewportSize.current;
+	const getSize = () =>
+		new Vector2(viewportSize.current.x * 0.8, viewportSize.current.y);
 
 	return (
 		<mesh {...props} ref={ref}>

@@ -31,13 +31,13 @@ const Dots = ({
 	getSize,
 }: {
 	/**
-	 * The radius of each sphere
-	 */
-	radius: number;
-	/**
 	 * Distance between spheres
 	 */
 	distance: number;
+	/**
+	 * The radius of each sphere
+	 */
+	radius: number;
 	/**
 	 * Instead of passing a `ref` with object, pass the object directly
 	 * as return.
@@ -120,6 +120,8 @@ const Dots = ({
 					)
 				);
 			}
+
+			refGroup.current.position.setX(size.x * 0.125);
 		}
 
 		mousePos.set(
