@@ -1,7 +1,7 @@
 import React from "react";
 
 const container: React.HTMLAttributes<HTMLElement>["style"] = {
-	height: "600px",
+	height: "100vh",
 	width: "100vw",
 };
 
