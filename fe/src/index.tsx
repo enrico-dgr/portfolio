@@ -1,3 +1,4 @@
+import { Stats } from "@react-three/drei";
 import React from "react";
 import * as ReactDOM from "react-dom";
 import { Provider } from "react-redux";
@@ -11,6 +12,7 @@ if (domContainer === null) throw new Error("dom container is null.");
 
 ReactDOM.render(
 	<Provider store={store.store}>
+		<Stats showPanel={2} />
 		<BrowserRouter>
 			<Routing />
 		</BrowserRouter>
