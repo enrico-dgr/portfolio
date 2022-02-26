@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { animated, useSpring, config } from "@react-spring/three";
-import { Box3, Mesh, Vector3 } from "three";
+import { Mesh, Vector2, Vector3 } from "three";
 import { MeshProps, useFrame } from "@react-three/fiber";
 
 import Dots from "./Dots";
@@ -15,17 +15,20 @@ const Background = (props: MeshProps) => {
 		config: config.wobbly,
 	});
 
+	// const { invalidate } = useThree();
+	// invalidate;
 	// refs
 	const ref = useRef<Mesh>(null);
 	const refSquare = useRef<Mesh>(null);
 
+	const [viewportSize] = useState({ current: new Vector2() });
+
 	// frames
-	useFrame(({ clock, scene }) => {
-		const sceneBox = new Box3().setFromObject(scene);
-		const sceneSizes = new Vector3().copy(sceneBox.max).sub(sceneBox.min);
+	useFrame(({ clock, scene, viewport }) => {
+		viewportSize.current.set(viewport.width, viewport.height);
 
 		if (!!ref.current) {
-			const halfSizes = sceneSizes.divideScalar(2);
+			const halfSizes = viewportSize.current.clone().multiplyScalar(0.5);
 			// center background
 			ref.current.position.set(
 				scene.position.x - halfSizes.x,
@@ -53,7 +56,13 @@ const Background = (props: MeshProps) => {
 
 	useEffect(() => {
 		document.addEventListener("mousedown", switchHover);
-	}, []);
+
+		return () => {
+			document.removeEventListener("mousedown", switchHover);
+		};
+	}, [viewportSize.current.x]);
+
+	const getSize = () => viewportSize.current;
 
 	return (
 		<mesh {...props} ref={ref}>
@@ -71,7 +80,7 @@ const Background = (props: MeshProps) => {
 				/>
 			</animated.mesh>
 			{/* Dots Grid */}
-			<Dots />
+			<Dots radius={0.02} distance={0.36} getSize={getSize} />
 		</mesh>
 	);
 };
