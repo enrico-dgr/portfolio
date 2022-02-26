@@ -1,6 +1,6 @@
 import React from "react";
 
-type Mutable<T> = { current: T };
+export type Mutable<T> = { current: T };
 
 const fillArrWith = <T>(amount: number, obj: T, objs: T[] = []): T[] => {
 	if (objs.length < amount) {
@@ -12,7 +12,7 @@ const fillArrWith = <T>(amount: number, obj: T, objs: T[] = []): T[] => {
 
 const useRefs = <T, N = undefined | null>(
 	amount: number,
-	defaultValue: N
+	defaultValue: T | N
 ): [Mutable<T | N>[], (i: number) => (ref: T) => void] => {
 	const [refs, setRefs] = React.useState<Mutable<T | N>[]>(
 		fillArrWith<Mutable<T | N>>(amount, { current: defaultValue })

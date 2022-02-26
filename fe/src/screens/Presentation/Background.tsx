@@ -2,17 +2,17 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useFrame } from "@react-three/fiber";
 import { useSpring, animated, config } from "@react-spring/three";
 import { Mesh } from "three";
-import { Position } from "../../types/three";
+import { Position3 } from "../../types/data";
 
 const generatePositions = (
 	numOfPositions: number,
-	minRange: Position,
-	maxRange: Position
-): Position[] => {
+	minRange: Position3,
+	maxRange: Position3
+): Position3[] => {
 	let buffer = [];
 
 	for (let i = 0; i < numOfPositions; i++) {
-		let position: Position = [0, 0, 0];
+		let position: Position3 = [0, 0, 0];
 
 		for (let j = 0; j < 3; j++) {
 			position[j] = Math.random() * (maxRange[j] - minRange[j]) + minRange[j];
@@ -23,7 +23,7 @@ const generatePositions = (
 	return buffer;
 };
 
-const positions: Position[] = generatePositions(16, [-2, -2, -2], [3, 3, 1]);
+const positions: Position3[] = generatePositions(16, [-2, -2, -2], [3, 3, 1]);
 
 // const getRandomPositiveNegative = () =>
 // 	Math.abs(Math.round(1.5 - 3 * Math.random()));
@@ -61,7 +61,7 @@ const Background = () => {
 
 				const pos = positions[i].map(
 					(coord, j) => springs.position.get()[j] + coord
-				) as Position;
+				) as Position3;
 				mesh.current.position.set(...pos);
 			}
 		});
