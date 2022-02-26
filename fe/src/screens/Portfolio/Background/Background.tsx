@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { animated, useSpring, config } from "@react-spring/three";
-import { Mesh, Vector2, Vector3 } from "three";
+import { Group, Mesh, Vector2, Vector3 } from "three";
 import { MeshProps, useFrame } from "@react-three/fiber";
 
 import Dots from "./Dots";
@@ -15,13 +15,14 @@ const Background = (props: MeshProps) => {
 		config: config.wobbly,
 	});
 
-	// const { invalidate } = useThree();
-	// invalidate;
-	// refs
 	const ref = useRef<Mesh>(new Mesh());
 	const refSquare = useRef<Mesh>(new Mesh());
+	const refDots = useRef<Group>();
 
 	const [viewportSize] = useState({ current: new Vector2() });
+	const dotsWidthProp = 0.8;
+	const getSize = () =>
+		new Vector2(viewportSize.current.x * dotsWidthProp, viewportSize.current.y);
 
 	// frames
 	useFrame(({ clock, scene, viewport }) => {
@@ -29,12 +30,22 @@ const Background = (props: MeshProps) => {
 
 		if (!!ref.current) {
 			const halfSizes = viewportSize.current.clone().multiplyScalar(0.5);
-			// center background
+			// center Background with respect to scene
 			ref.current.position.set(
 				scene.position.x - halfSizes.x,
 				scene.position.y + halfSizes.y,
 				ref.current.position.z
 			);
+
+			// center dots-block with respect to Background
+			if (!!refDots.current) {
+				refDots.current.position.set(
+					(viewportSize.current.x - viewportSize.current.x * dotsWidthProp) *
+						0.5,
+					0,
+					0
+				);
+			}
 
 			// square animation
 			if (!!refSquare.current) {
@@ -62,9 +73,6 @@ const Background = (props: MeshProps) => {
 		};
 	}, [viewportSize.current.x]);
 
-	const getSize = () =>
-		new Vector2(viewportSize.current.x * 0.8, viewportSize.current.y);
-
 	return (
 		<mesh {...props} ref={ref}>
 			{/* Cube */}
@@ -81,7 +89,12 @@ const Background = (props: MeshProps) => {
 				/>
 			</animated.mesh>
 			{/* Dots Grid */}
-			<Dots radius={0.02} distance={0.36} getSize={getSize} />
+			<Dots
+				distance={0.36}
+				getSize={getSize}
+				radius={0.02}
+				refGroup={refDots}
+			/>
 		</mesh>
 	);
 };

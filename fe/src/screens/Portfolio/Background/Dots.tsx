@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import {
+	Group,
 	Mesh,
 	MeshStandardMaterial,
 	SphereGeometry,
@@ -25,11 +26,7 @@ const toNumOfSpheres = (radius: number, distance: number, size: Vector2) => {
 	return { num: x * y, maxColumns: x };
 };
 
-const Dots = ({
-	radius,
-	distance,
-	getSize,
-}: {
+type Props = {
 	/**
 	 * Distance between spheres
 	 */
@@ -43,9 +40,17 @@ const Dots = ({
 	 * as return.
 	 */
 	getSize: () => Vector2;
-}) => {
+	refGroup?: React.MutableRefObject<Group | undefined>;
+};
+
+const Dots = ({
+	radius,
+	distance,
+	getSize,
+	refGroup: refGroup_prop,
+}: Props) => {
 	// the container of the dots
-	const refGroup = useRef<Mesh>();
+	const refGroup = refGroup_prop ?? useRef<Group>();
 	// the array of dots, added and remove dynamically in `useFrame(()=>{})`
 	const refsDots: { current: Mesh<SphereGeometry, MeshStandardMaterial> }[] =
 		[];
@@ -63,7 +68,7 @@ const Dots = ({
 		const size = getSize();
 
 		if (
-			!!refGroup.current &&
+			!!refGroup?.current &&
 			// if size given from parent changed consistently,
 			// make the math inside the `if`.
 			refSizeInUse.current.distanceToSquared(size) > 0.1
@@ -121,7 +126,7 @@ const Dots = ({
 				);
 			}
 
-			refGroup.current.position.setX(size.x * 0.125);
+			// refGroup.current.position.setX(size.x * 0.125);
 		}
 
 		mousePos.set(
