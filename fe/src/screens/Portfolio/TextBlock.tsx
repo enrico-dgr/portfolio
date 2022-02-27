@@ -1,23 +1,42 @@
-import { MeshProps, useFrame } from "@react-three/fiber";
+import { useFrame } from "@react-three/fiber";
 import React from "react";
 import { useRef } from "react";
-import { Mesh } from "three";
+import { Group } from "three";
 import Text from "./Text";
 
-const TextBlock = (props: MeshProps) => {
-	const ref = useRef<Mesh>(null);
+type Props = {
+	refGroup?: React.RefObject<Group>;
+};
 
-	useFrame(({ clock }) => {
-		if (!!ref.current) {
-			const scale = 0.05 * Math.abs(Math.cos(clock.getElapsedTime())) + 1;
+const TextBlock = ({ refGroup: refGroup_ }: Props) => {
+	const refGroup = refGroup_ ?? useRef<Group>(null);
+	const scale0 = useRef(1);
+	const widthViewport = useRef(0);
+
+	useFrame(({ clock, viewport }) => {
+		if (!!refGroup.current) {
+			const scale =
+				0.05 * Math.abs(Math.cos(clock.getElapsedTime())) + scale0.current;
 			const y = 0.3 * Math.abs(Math.cos(clock.getElapsedTime()));
-			ref.current.scale.setScalar(scale);
-			ref.current.position.setY(-y);
+			refGroup.current.scale.setScalar(scale);
+			refGroup.current.position.setY(-y);
+
+			if (viewport.width !== widthViewport.current) {
+				widthViewport.current = viewport.width;
+
+				if (viewport.width > 8) {
+					scale0.current = 1;
+					refGroup.current.position.setX(-4);
+				} else {
+					scale0.current = 0.8;
+					refGroup.current.position.setX(-1.5);
+				}
+			}
 		}
 	});
 
 	return (
-		<mesh {...props} ref={ref}>
+		<group ref={refGroup}>
 			<Text color={"white"} position={[0, 2.5, 0]} scale={3} text="For now," />
 			<Text
 				color={"gray"}
@@ -37,7 +56,7 @@ const TextBlock = (props: MeshProps) => {
 				scale={2.1}
 				text="this section."
 			/>
-		</mesh>
+		</group>
 	);
 };
 
