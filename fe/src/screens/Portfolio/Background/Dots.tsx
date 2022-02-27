@@ -159,7 +159,7 @@ const Dots = ({
 		});
 	});
 
-	return <group ref={refGroup}></group>;
+	return <group position={[0, 0, 0]} ref={refGroup}></group>;
 };
 
 const newDot = (radius: number) =>
