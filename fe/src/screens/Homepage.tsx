@@ -5,7 +5,7 @@ import Link from "../components/funcComponents/Link";
 import ROUTES from "../constants/routes";
 import Portfolio from "./Portfolio/Portfolio";
 import Presentation from "./Presentation/Presentation";
-import SelfDescription from "./SelfDescription";
+import AboutMe from "./AboutMe/AboutMe";
 
 class Homepage extends Component {
 	render() {
@@ -31,7 +31,7 @@ class Homepage extends Component {
 						},
 						{
 							path: ROUTES.HOMEPAGE.ABOUT_ME,
-							element: <SelfDescription />,
+							element: <AboutMe />,
 						},
 					]}
 				/>
