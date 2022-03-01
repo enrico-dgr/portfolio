@@ -77,10 +77,10 @@ const pcStyle: Styles = {
 };
 
 const mobileStyle: Styles = {
-	aboutMe: { ...pcStyle.aboutMe, fontSize: 55, maxWidth: 800 },
+	aboutMe: { ...pcStyle.aboutMe, fontSize: 48, maxWidth: 800 },
 	aboutSite: {
 		...pcStyle.aboutSite,
-		fontSize: 55,
+		fontSize: 45,
 	},
 	aboutSiteInner: { ...pcStyle.aboutSiteInner, maxWidth: 800 },
 };
