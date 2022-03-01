@@ -34,8 +34,11 @@ class Routes extends Component<Props, State> {
 			(r) => r.absolutePath === location.pathname
 		)?.div;
 
-		if (!!div) {
-			div.scrollIntoView({ behavior: "smooth", inline: "start" });
+		if (!!div && !!this.refScrollableContainer.current) {
+			this.refScrollableContainer.current.scrollTo({
+				top: div.offsetTop,
+				behavior: "smooth",
+			});
 		}
 	};
 
