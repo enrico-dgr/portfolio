@@ -20,6 +20,7 @@ class Routes extends Component<Props, State> {
 		super(props);
 
 		this.refScrollableContainer = React.createRef<HTMLDivElement>();
+		this.scrolling = false;
 
 		this.state = {
 			absolutePath: this.props.basePath,
@@ -28,17 +29,54 @@ class Routes extends Component<Props, State> {
 	}
 
 	refScrollableContainer;
+	scrolling: boolean;
 
 	scrollToPathname = () => {
+		// check no scroll is running
+		if (this.scrolling) {
+			return;
+		}
+		this.scrolling = true;
+
+		// find element to scroll to
 		const div = this.state.mappedRoutes.find(
 			(r) => r.absolutePath === location.pathname
 		)?.div;
 
+		// make magic happens
 		if (!!div && !!this.refScrollableContainer.current) {
-			this.refScrollableContainer.current.scrollTo({
-				top: div.offsetTop,
-				behavior: "smooth",
-			});
+			//
+			const container = this.refScrollableContainer.current;
+			//
+			const targetHeight = div.offsetTop;
+			const startingHeight = container.scrollTop;
+			const delta = targetHeight - startingHeight;
+			// up or down
+			const verse = delta > 0 ? 1 : -1;
+			const deltaAbs = Math.abs(delta);
+			const step = 5;
+			// avoid unnecessary scroll
+			if (deltaAbs < 100) {
+				this.scrolling = false;
+				return;
+			}
+			//
+			let nextHeight = startingHeight;
+			let currentDelta = 0;
+			//
+			const int = setInterval(() => {
+				// exponential growth
+				const currStep = Math.pow(step, 2.7 - currentDelta / deltaAbs);
+
+				nextHeight += verse * currStep;
+				currentDelta += currStep;
+				container.scrollTo(0, nextHeight);
+
+				if (currentDelta > deltaAbs) {
+					clearInterval(int);
+					this.scrolling = false;
+				}
+			}, 18);
 		}
 	};
 
