@@ -1,5 +1,6 @@
 import React from "react";
-import { Link as RRDLink, LinkProps } from "react-router-dom";
+import { Link as RRDLink, LinkProps, To } from "react-router-dom";
+import { scroll } from "../classComponents/SinglePageRouting";
 
 const Link = (props: LinkProps) => {
 	const [state, setState] = React.useState({
@@ -9,9 +10,11 @@ const Link = (props: LinkProps) => {
 	const setHoverTrue = () => setState({ ...state, hover: true });
 	const setHoverFalse = () => setState({ ...state, hover: false });
 
+	const navigateTo = (to: To) => () => scroll(typeof to === "string" ? to : "");
 	return (
 		<RRDLink
 			{...props}
+			onClick={navigateTo(props.to)}
 			style={{ ...styleLink, ...(state.hover ? styleLinkHover : {}) }}
 			onMouseEnter={setHoverTrue}
 			onMouseLeave={setHoverFalse}

@@ -3,6 +3,7 @@ import Route from "./Route";
 
 import ExtractComponentProps from "../../../types/ExtractComponentProps";
 import { animateScroll } from "./animateScroll";
+import { addListener, removeListener } from "./scroll";
 
 type PropsRoute = ExtractComponentProps<typeof Route>;
 
@@ -21,7 +22,6 @@ class Routes extends Component<Props, State> {
 		super(props);
 
 		this.refScrollableContainer = React.createRef<HTMLDivElement>();
-		this.scrolling = false;
 
 		this.state = {
 			absolutePath: this.props.basePath,
@@ -30,18 +30,11 @@ class Routes extends Component<Props, State> {
 	}
 
 	refScrollableContainer;
-	scrolling: boolean;
 
-	scrollToPathname = () => {
-		// check no scroll is running
-		if (this.scrolling) {
-			return;
-		}
-		this.scrolling = true;
-
+	scrollToPathname = (pathname: string) => {
 		// find element to scroll to
-		const div = this.state.mappedRoutes.find(
-			(r) => r.absolutePath === location.pathname
+		const div = this.state.mappedRoutes.find((r) =>
+			r.absolutePath.includes(pathname)
 		)?.div;
 
 		if (!!div && !!this.refScrollableContainer.current) {
@@ -51,27 +44,14 @@ class Routes extends Component<Props, State> {
 				duration: 1000,
 			});
 		}
-		this.scrolling = false;
 	};
 
-	shouldComponentUpdate = (_nextProps: Props, nextState: State) => {
-		if (
-			this.state.absolutePath !== location.pathname ||
-			this.state.absolutePath !== nextState.absolutePath
-		) {
-			return true;
-		}
+	componentDidMount = () => {
+		addListener(this.scrollToPathname);
+	};
 
+	shouldComponentUpdate = () => {
 		return false;
-	};
-
-	componentDidUpdate = (_prevProps: Props, prevState: State) => {
-		// changed location.pathname
-		if (this.state.absolutePath !== location.pathname) {
-			this.setState({ absolutePath: location.pathname });
-		} else if (this.state.absolutePath !== prevState.absolutePath) {
-			this.scrollToPathname();
-		}
 	};
 
 	addRouteToState = (path: string) => (div: HTMLDivElement) => {
@@ -83,6 +63,10 @@ class Routes extends Component<Props, State> {
 		this.setState((ps) => ({
 			mappedRoutes: [...ps.mappedRoutes, newRoute],
 		}));
+	};
+
+	componentWillUnmount = () => {
+		removeListener(this.scrollToPathname);
 	};
 
 	render() {

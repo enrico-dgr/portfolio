@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import Routes from "../components/classComponents/SinglePageRouting/Routes";
+import { Routes } from "../components/classComponents/SinglePageRouting";
 import Link from "../components/funcComponents/Link";
 import ROUTES from "../constants/routes";
 import Portfolio from "./Portfolio/Portfolio";
