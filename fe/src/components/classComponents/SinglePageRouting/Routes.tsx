@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Route from "./Route";
 
 import ExtractComponentProps from "../../../types/ExtractComponentProps";
+import { animateScroll } from "./animateScroll";
 
 type PropsRoute = ExtractComponentProps<typeof Route>;
 
@@ -43,41 +44,14 @@ class Routes extends Component<Props, State> {
 			(r) => r.absolutePath === location.pathname
 		)?.div;
 
-		// make magic happens
 		if (!!div && !!this.refScrollableContainer.current) {
-			//
-			const container = this.refScrollableContainer.current;
-			//
-			const targetHeight = div.offsetTop;
-			const startingHeight = container.scrollTop;
-			const delta = targetHeight - startingHeight;
-			// up or down
-			const verse = delta > 0 ? 1 : -1;
-			const deltaAbs = Math.abs(delta);
-			const step = 5;
-			// avoid unnecessary scroll
-			if (deltaAbs < 100) {
-				this.scrolling = false;
-				return;
-			}
-			//
-			let nextHeight = startingHeight;
-			let currentDelta = 0;
-			//
-			const int = setInterval(() => {
-				// exponential growth
-				const currStep = Math.pow(step, 2.7 - currentDelta / deltaAbs);
-
-				nextHeight += verse * currStep;
-				currentDelta += currStep;
-				container.scrollTo(0, nextHeight);
-
-				if (currentDelta > deltaAbs) {
-					clearInterval(int);
-					this.scrolling = false;
-				}
-			}, 18);
+			animateScroll({
+				targetElement: div,
+				containerElement: this.refScrollableContainer.current,
+				duration: 1000,
+			});
 		}
+		this.scrolling = false;
 	};
 
 	shouldComponentUpdate = (_nextProps: Props, nextState: State) => {
