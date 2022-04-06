@@ -31,6 +31,11 @@ class Routes extends Component<Props, State> {
 
 	refScrollableContainer;
 
+	/**
+	 *
+	 * @param pathname the string method `includes` is used
+	 * to find the first matching path
+	 */
 	scrollToPathname = (pathname: string) => {
 		// find element to scroll to
 		const div = this.state.mappedRoutes.find((r) =>
@@ -43,11 +48,34 @@ class Routes extends Component<Props, State> {
 				containerElement: this.refScrollableContainer.current,
 				duration: 1000,
 			});
+
+			return {
+				noScrolling: false,
+			};
 		}
+
+		return {
+			noScrolling: true,
+		};
 	};
 
 	componentDidMount = () => {
 		addListener(this.scrollToPathname);
+
+		// sync route at first page loading
+		let done = false;
+
+		const interval = setInterval(() => {
+			if (
+				!done &&
+				this.state.absolutePath !== location.pathname &&
+				this.scrollToPathname(location.pathname).noScrolling === false
+			) {
+				done = true;
+				clearInterval(interval);
+				this.setState({ absolutePath: location.pathname });
+			}
+		}, 800);
 	};
 
 	shouldComponentUpdate = () => {
