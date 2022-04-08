@@ -7,6 +7,7 @@
 	"author": "enrico-dgr",
 	"scripts": {
 		"dev": "npx webpack serve",
+		"dev-specific": "npx webpack serve --config webpack.dev.config.js",
 		"prebuild": "rimraf build && mkdir ./build && cp ./prodFiles/* ./build",
 		"build": "npx webpack --config ./webpack.prod.config.js",
 		"start": "ts-node ./index.ts"

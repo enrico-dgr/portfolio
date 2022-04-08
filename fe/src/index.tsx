@@ -1,12 +1,21 @@
-import { Stats } from "@react-three/drei";
 import React from "react";
 import * as ReactDOM from "react-dom";
-import { Provider } from "react-redux";
+
+// drei stats
+import { Stats } from "@react-three/drei";
+
+// routing
 import { BrowserRouter } from "react-router-dom";
 import Routing from "./Routing";
+
+// seo
 import { Helmet } from "react-helmet";
+
+// style
 import logo from "./assets/logo.png";
 
+// global state
+import { Provider } from "react-redux";
 import store from "./store";
 
 let domContainer = document.getElementById("react");

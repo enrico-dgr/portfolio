@@ -8,25 +8,24 @@ module.exports = {
 	devtool: "inline-source-map",
 	devServer: {
 		static: {
-			directory: path.join(__dirname, "./build"),
+			directory: path.join(__dirname, "./specificComponent/build"),
 		},
 		compress: true,
 		hot: true,
-		port: 9000,
+		port: 9001,
 		historyApiFallback: true,
 	},
 	plugins: [
 		new HtmlWebpackPlugin({
-			template: "./src/index.html",
+			template: "./specificComponent/index.html",
 			inject: false,
 		}),
 	],
 	entry: {
-		index: path.resolve(__dirname, "./src/index.tsx"),
-		style: path.resolve(__dirname, "./src/style.ts"),
+		index: path.resolve(__dirname, "./specificComponent/index.tsx"),
 	},
 	output: {
-		path: path.resolve(__dirname, "./build"),
+		path: path.resolve(__dirname, "./specificComponent/build"),
 		filename: "[name].js",
 		publicPath: "/",
 	},

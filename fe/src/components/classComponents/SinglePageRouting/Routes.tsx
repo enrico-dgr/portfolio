@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, CSSProperties } from "react";
 import Route from "./Route";
 
 import ExtractComponentProps from "../../../types/ExtractComponentProps";
@@ -9,7 +9,9 @@ type PropsRoute = ExtractComponentProps<typeof Route>;
 
 type Props = {
 	basePath: string;
+	classNameContainer?: string;
 	routes: PropsRoute[];
+	styleContainer?: CSSProperties;
 };
 
 type State = {
@@ -78,7 +80,14 @@ class Routes extends Component<Props, State> {
 		}, 800);
 	};
 
-	shouldComponentUpdate = () => {
+	shouldComponentUpdate = (nextProps: Props, _nextState: State) => {
+		for (const key in nextProps) {
+			if (Object.prototype.hasOwnProperty.call(nextProps, key)) {
+				const keyTyped = key as keyof Props;
+				if (nextProps[keyTyped] !== this.props[keyTyped]) return true;
+			}
+		}
+
 		return false;
 	};
 
@@ -99,7 +108,11 @@ class Routes extends Component<Props, State> {
 
 	render() {
 		return (
-			<div style={styleContainer} ref={this.refScrollableContainer}>
+			<div
+				className={this.props.classNameContainer}
+				ref={this.refScrollableContainer}
+				style={{ ...styleContainer, ...this.props.styleContainer }}
+			>
 				<div style={styleList}>{this.props.routes.map(this.mapRoutes)}</div>
 			</div>
 		);
