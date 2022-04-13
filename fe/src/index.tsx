@@ -2,7 +2,7 @@ import React from "react";
 import * as ReactDOM from "react-dom";
 
 // drei stats
-import { Stats } from "@react-three/drei";
+// import { Stats } from "@react-three/drei";
 
 // routing
 import { BrowserRouter } from "react-router-dom";
@@ -23,7 +23,7 @@ if (domContainer === null) throw new Error("dom container is null.");
 
 ReactDOM.render(
 	<Provider store={store.store}>
-		<Stats showPanel={0} />
+		{/* <Stats showPanel={0} /> */}
 		<Helmet>
 			<link rel="icon" href={logo} />
 			<meta name="description" content="Personal site" />
