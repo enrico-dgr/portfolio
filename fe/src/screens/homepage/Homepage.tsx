@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import { Routes } from "../../components/classComponents/SinglePageRouting";
+import { Routes } from "@enrico-dgr/vertical-routing-react";
 import Link from "../../components/funcComponents/Link";
 import ROUTES from "../../constants/routes";
 import Portfolio from "../Portfolio/Portfolio";
@@ -20,8 +20,9 @@ class Homepage extends Component {
 				<div style={{ height: style.header?.height }}></div>
 
 				<Routes
-					basePath={`${ROUTES.BASE}${ROUTES.HOMEPAGE.SELF}`}
+					baseAbsolutePath={`${ROUTES.BASE}${ROUTES.HOMEPAGE.SELF}`}
 					classNameContainer={"no-scrollbar"}
+					styleContainer={{ height: "100vh", overflowY: "scroll" }}
 					routes={[
 						{
 							path: ROUTES.HOMEPAGE.PRESENTATION,
