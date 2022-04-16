@@ -1,6 +1,6 @@
 import React from "react";
 import { Link as RRDLink, LinkProps, To } from "react-router-dom";
-import { scroll } from "../classComponents/SinglePageRouting";
+import { scroll } from "@enrico-dgr/vertical-routing-react";
 
 const Link = (props: LinkProps) => {
 	const [state, setState] = React.useState({
