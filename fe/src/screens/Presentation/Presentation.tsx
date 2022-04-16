@@ -1,40 +1,21 @@
-import React, { Component, Suspense } from "react";
+import React from "react";
 
-import { Canvas } from "@react-three/fiber";
-import { Html as DreiHtml } from "@react-three/drei";
-import screenStyles from "../../styles/screenStyles";
 import Html from "./Html";
 import Background from "./Background";
 import CursorAnimation from "./CursorAnimation";
+import Text from "../../components/funcComponents/text/Text";
 
-class Presentation extends Component {
-	constructor(props: {}) {
-		super(props);
-	}
+const Presentation = () => {
+	return (
+		<group>
+			<ambientLight intensity={0.1} />
+			<directionalLight color="red" position={[0, 0, 5]} />
+			<Html />
+			<Text>Ciao</Text>
+			<Background />
+			<CursorAnimation />
+		</group>
+	);
+};
 
-	render() {
-		return (
-			<Canvas
-				style={screenStyles.styleContainer}
-				camera={{ position: [0, 0, 3] }}
-				gl={{
-					powerPreference: "high-performance",
-					alpha: false,
-					antialias: false,
-					stencil: false,
-					depth: false,
-				}}
-			>
-				<ambientLight intensity={0.1} />
-				<directionalLight color="red" position={[0, 0, 5]} />
-				<Suspense fallback={<DreiHtml center>Loading...</DreiHtml>}>
-					<Html />
-					<Background />
-					<CursorAnimation />
-				</Suspense>
-			</Canvas>
-		);
-	}
-}
-
-export default Presentation;
+export default React.memo(Presentation);
