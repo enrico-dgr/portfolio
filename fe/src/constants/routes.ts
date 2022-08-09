@@ -1,10 +1,13 @@
 const ROUTES = {
-	BASE: "/",
+	BASE: '/',
+	HOME: {
+		SELF: 'home',
+	},
 	HOMEPAGE: {
-		SELF: "homepage",
-		PRESENTATION: "presentation",
-		PORTFOLIO: "portfolio",
-		ABOUT_ME: "about-me",
+		SELF: 'homepage',
+		PRESENTATION: 'presentation',
+		PORTFOLIO: 'portfolio',
+		ABOUT_ME: 'about-me',
 	},
 };
 

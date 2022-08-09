@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState } from 'react';
 import {
 	Group,
 	Mesh,
@@ -6,9 +6,9 @@ import {
 	SphereGeometry,
 	Vector2,
 	Vector3,
-} from "three";
-import { useFrame } from "@react-three/fiber";
-import { positionToGridPosition3D } from "../../../utils/3dm";
+} from 'three';
+import { useFrame } from '@react-three/fiber';
+import { positionToGridPosition3D } from '../../../utils/3dm';
 
 // import useRefs from "../../../hooks/useRefs";
 
@@ -121,8 +121,8 @@ const Dots = ({
 			for (let i = 0; i < refsDots.length; i++) {
 				refsDots[i].current.position.copy(
 					positionToGridPosition3D(i, maxColumns).multiplyScalar(
-						proportionalFactor
-					)
+						proportionalFactor,
+					),
 				);
 			}
 
@@ -132,14 +132,14 @@ const Dots = ({
 		mousePos.set(
 			(mouse.x * viewport.width) / 2,
 			(mouse.y * viewport.height) / 2,
-			0
+			0,
 		);
 
 		// dots animations
 		refsDots.forEach((dot) => {
 			if (!!dot.current) {
 				const mouseDistance = mousePos.distanceToSquared(
-					dot.current.getWorldPosition(dotPos)
+					dot.current.getWorldPosition(dotPos),
 				);
 
 				// mouse near the dot
@@ -159,21 +159,26 @@ const Dots = ({
 		});
 	});
 
-	return <group position={[0, 0, 0]} ref={refGroup}></group>;
+	return (
+		<group
+			position={[0, 0, 0]}
+			ref={refGroup as React.MutableRefObject<Group>}
+		></group>
+	);
 };
 
 const newDot = (radius: number) =>
 	new Mesh(
 		new SphereGeometry(radius),
 		new MeshStandardMaterial({
-			color: "white",
-			emissive: "blue",
+			color: 'white',
+			emissive: 'blue',
 			emissiveIntensity: 1,
 			opacity: 0.2,
 			transparent: true,
 			roughness: 0.1,
 			metalness: 0.5,
-		})
+		}),
 	);
 
 export default React.memo(Dots, (pre, next) => {

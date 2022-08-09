@@ -1,0 +1,33 @@
+version: "3.9"
+
+services:
+  feDev:
+    container_name: fe_dev
+    image: fe_dev:1.0.0
+    build:
+      context: ./fe
+      target: development
+      dockerfile: Dockerfile
+    volumes:
+      - ./fe/src:/usr/src/fe/src
+    ports:
+      - 9000:9000
+    networks:
+      - network-1
+    restart: unless-stopped
+
+  feProd:
+    container_name: fe_prod
+    image: fe_prod:1.0.0
+    build:
+      context: ./fe
+      target: production
+      dockerfile: Dockerfile
+    ports:
+      - 9000:9000
+    networks:
+      - network-1
+    restart: unless-stopped
+
+networks:
+  network-1:

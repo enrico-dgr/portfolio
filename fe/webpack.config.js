@@ -1,58 +1,61 @@
-var path = require("path");
+var path = require('path');
 
-var HtmlWebpackPlugin = require("html-webpack-plugin");
+var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-	mode: "development",
-	target: "web",
-	devtool: "inline-source-map",
+	mode: 'development',
+	target: 'web',
+	devtool: 'inline-source-map',
 	devServer: {
 		static: {
-			directory: path.join(__dirname, "./build"),
+			directory: path.join(__dirname, './build'),
 		},
 		compress: true,
 		hot: true,
 		port: 9000,
 		historyApiFallback: true,
 	},
+	watchOptions: {
+		poll: 1000,
+	},
 	plugins: [
 		new HtmlWebpackPlugin({
-			template: "./src/index.html",
+			template: './src/index.html',
 			inject: false,
 		}),
 	],
 	entry: {
-		index: path.resolve(__dirname, "./src/index.tsx"),
-		style: path.resolve(__dirname, "./src/style.ts"),
+		index: path.resolve(__dirname, './src/index.tsx'),
+		style: path.resolve(__dirname, './src/style.ts'),
 	},
 	output: {
-		path: path.resolve(__dirname, "./build"),
-		filename: "[name].js",
-		publicPath: "/",
+		path: path.resolve(__dirname, './build'),
+		filename: '[name].js',
+		publicPath: '/',
 	},
 	resolve: {
-		extensions: [".tsx", ".ts", ".js", ".jsx"],
+		extensions: ['.tsx', '.ts', '.js', '.jsx'],
 		fallback: {
-			path: require.resolve("./node_modules/path-browserify"),
+			path: require.resolve('./node_modules/path-browserify'),
 		},
 	},
 	module: {
 		rules: [
 			{
 				test: /\.tsx?$/,
-				use: "ts-loader",
+				use: 'ts-loader',
 				exclude: /node_modules/,
 			},
 			{
 				test: /\.(png|jpe?g|gif)$/i,
-				loader: "url-loader",
+				loader: 'url-loader',
 				options: {
 					limit: 8192,
 				},
 			},
 			{
 				test: /\.woff2$/i,
-				loader: "url-loader",
+				loader: 'url-loader',
 				options: {
 					limit: 8192,
 				},
@@ -61,22 +64,22 @@ module.exports = {
 				test: /\.s[ac]ss$/i,
 				use: [
 					{
-						loader: "style-loader",
+						loader: 'style-loader',
 						options: {},
 					},
 					{
-						loader: "css-loader",
+						loader: 'css-loader',
 						options: {},
 					},
 					{
-						loader: "resolve-url-loader",
+						loader: 'resolve-url-loader',
 						options: {},
 					},
 					{
-						loader: "sass-loader",
+						loader: 'sass-loader',
 						options: {
 							sourceMap: true,
-							implementation: require("sass"),
+							implementation: require('sass'),
 						},
 					},
 				],
@@ -85,12 +88,16 @@ module.exports = {
 				test: /\.md$/,
 				use: [
 					{
-						loader: "html-loader",
+						loader: 'html-loader',
 					},
 					{
-						loader: "markdown-loader",
+						loader: 'markdown-loader',
 					},
 				],
+			},
+			{
+				test: /\.glsl/,
+				type: 'asset/source',
 			},
 		],
 	},
