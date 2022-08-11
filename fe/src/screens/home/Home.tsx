@@ -1,15 +1,31 @@
+import React, { Suspense } from 'react';
+
+// three
 import { Html, OrbitControls } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
-import React, { Suspense } from 'react';
-import { DoubleSide, PCFSoftShadowMap } from 'three';
+import { DoubleSide, PCFSoftShadowMap, Vector3 } from 'three';
+
+// dat.gui
+import datGui from '../../utils/dat-gui';
+
+// components
 import NavSaturn from '../../components/funcComponents/navSaturn/NavSaturn';
+
+// style
 import screenStyles from '../../styles/screenStyles';
+
+const configs = {
+	castShadow: true,
+	color: 0xffffff,
+	intensity: 1,
+	position: new Vector3(80, -5, 100),
+};
 
 const Home = () => {
 	return (
 		<Canvas
 			camera={{
-				position: [-20, 40, 150],
+				position: [0, 0, 150],
 				isPerspectiveCamera: true,
 				aspect: window.innerWidth / window.innerHeight,
 				fov: 10,
@@ -30,20 +46,31 @@ const Home = () => {
 		>
 			<Suspense fallback={<Html center>Loading...</Html>}></Suspense>
 			<OrbitControls />
-			<directionalLight
-				castShadow={true}
-				color={0xffffff}
-				intensity={1}
-				position={[80, 10, 100]}
+			<spotLight
+				{...configs}
 				ref={(cur) => {
-					if (!!cur?.shadow) {
-						cur.shadow.camera.far = 1000;
-						// cur.shadow.mapSize.set(4096, 2048);
-						cur.shadow.camera.top = 200;
-						cur.shadow.camera.bottom = -200;
-						cur.shadow.camera.right = 200;
-						cur.shadow.camera.left = -200;
+					if (cur) {
 						cur.shadow.blurSamples = 32;
+						datGui((gui) => {
+							const folder = gui.addFolder('Home');
+							folder
+								.add(configs, 'intensity', 0, 1)
+								.onChange((v) => (cur.intensity = v));
+							folder
+								.addColor(configs, 'color')
+								.onChange((v) => cur.color.set(v));
+
+							const positionFolder = folder.addFolder('position');
+							positionFolder
+								.add(configs.position, 'x', -200, 200)
+								.onChange((v) => cur.position.setX(v));
+							positionFolder
+								.add(configs.position, 'y', -200, 200)
+								.onChange((v) => cur.position.setY(v));
+							positionFolder
+								.add(configs.position, 'z', -200, 200)
+								.onChange((v) => cur.position.setZ(v));
+						});
 					}
 				}}
 			/>
