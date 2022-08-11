@@ -1,37 +1,40 @@
-import helvetica from 'three/examples/fonts/helvetiker_bold.typeface.json';
-import { FontLoader } from 'three/examples/jsm/loaders/FontLoader';
-import {
-	Mesh,
-	MeshPhongMaterial,
-} from 'three';
-import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry';
+import { Vector3 } from 'three';
+import buildRing from './buildRing';
+import buildText from './buildText';
 
-const buildNavRing = (text: string) => {
-	const size = 2;
+function randomRadius(ringMaxRadius: number, ringMinRadius: number) {
+	return Math.random() * (ringMaxRadius - ringMinRadius) + ringMinRadius;
+}
 
-	const font = new FontLoader().parse(helvetica);
+function getAngle(i: number, tot: number) {
+	return ((i + 1) * Math.PI * 2) / tot;
+}
 
-	let xMid = 0;
-	const geometry = new TextGeometry(text, {
-		font: font,
-		size,
-		height: size / 2,
-		curveSegments: 12,
-	});
-	geometry.computeBoundingBox();
+function buildNavRing(
+	texts: string[],
+	ringMinRadius: number,
+	ringMaxRadius: number,
+) {
+	const v3 = new Vector3();
+	const ringMesh = buildRing(ringMinRadius, ringMaxRadius);
+	const ringAngle = (110 * 3.14) / 180;
+	ringMesh.rotateOnAxis(v3.set(1, 0, 0), ringAngle);
 
-	const material = new MeshPhongMaterial({
-		color: 0xffffff,
-	});
+	for (let i = 0; i < texts.length; i++) {
+		const text = buildText(texts[i]);
 
-	if (geometry.boundingBox)
-		xMid = -0.5 * (geometry.boundingBox.max.x - geometry.boundingBox.min.x);
-	geometry.translate(xMid, 0, 0);
+		const radius = randomRadius(ringMaxRadius, ringMinRadius);
+		const angle = getAngle(i, texts.length);
 
-	const mesh = new Mesh(geometry, material);
-	mesh.position.setZ(30);
+		text.rotateOnAxis(v3.set(-1, 0, 0), ringAngle);
+		text.position
+			.set(Math.cos(angle), Math.sin(angle), 0)
+			.multiplyScalar(radius);
 
-	return mesh;
-};
+		ringMesh.add(text);
+	}
+
+	return ringMesh;
+}
 
 export default buildNavRing;
