@@ -1,41 +1,37 @@
+import { ThreeEvent } from '@react-three/fiber';
 import React from 'react';
-import { Vector3 } from 'three';
-import buildNavRing from './buildNavRing';
-import buildSaturnMesh from './buildPlanet';
+import { Euler, Group } from 'three';
+import NavRing from './NavRing';
+import Planet from './Planet';
 
-// constants
-const saturnRadius = 4;
-const ringMinRadius = 5.5;
-const ringMaxRadius = 9.5;
-
-// meshes
-const saturnMesh = buildSaturnMesh(saturnRadius);
-const navRing = buildNavRing(
-	['School', 'Career', 'Skills'],
-	ringMinRadius,
-	ringMaxRadius,
-);
-
-// Component
 function NavSaturn() {
 	console.log('render');
 
-	return (
-		<group
-			onWheel={(e) => {
-				let angle = 0.07;
+	const ref = React.useRef<Group>(null);
+	const [ringRotation, set] = React.useState(new Euler(3.14 * (110 / 180)));
 
-				if (e.nativeEvent.deltaY < 0) {
-					angle *= -1;
-				}
-				navRing.rotateOnAxis(new Vector3(0, 0, 1), angle);
-			}}
-			position={[0, 0, 0]}
-			ref={(cur) => {
-				cur?.add(saturnMesh);
-				cur?.add(navRing);
-			}}
-		></group>
+	const onWheel = React.useCallback((e: ThreeEvent<WheelEvent>) => {
+		let angle = 0.07;
+
+		if (e.nativeEvent.deltaY < 0) {
+			angle *= -1;
+		}
+
+		set(
+			ringRotation.set(ringRotation.x, 0, ringRotation.z + angle).clone(),
+		);
+	}, []);
+
+	return (
+		<group onWheel={onWheel} position={[0, 0, 0]} ref={ref}>
+			<Planet saturnRadius={4} />
+			<NavRing
+				ringMinRadius={5.5}
+				ringMaxRadius={9.5}
+				texts={['School', 'Career', 'Skills']}
+				rotation={ringRotation}
+			/>
+		</group>
 	);
 }
 
