@@ -13,6 +13,7 @@ import NavSaturn from '../../components/funcComponents/navSaturn/NavSaturn';
 
 // style
 import screenStyles from '../../styles/screenStyles';
+import Character from '../../components/funcComponents/character/Character';
 
 const cameraConfigs = {
 	position: new Vector3(0, 50, 150),
@@ -58,6 +59,7 @@ const lightConfigs = {
 };
 
 const Home = () => {
+	console.log('Home render');
 	return (
 		<Canvas
 			camera={{
@@ -78,37 +80,40 @@ const Home = () => {
 			shadows
 			style={screenStyles.styleContainer}
 		>
-			<Suspense fallback={<Html center>Loading...</Html>}></Suspense>
-			<Camera />
-			<spotLight
-				{...lightConfigs}
-				ref={(cur) => {
-					if (cur) {
-						cur.shadow.blurSamples = 32;
-						datGui.develop((gui) => {
-							const folder = gui.addFolder('Home');
-							folder
-								.add(lightConfigs, 'intensity', 0, 1)
-								.onChange((v) => (cur.intensity = v));
-							folder
-								.addColor(lightConfigs, 'color')
-								.onChange((v) => cur.color.set(v));
+			<Suspense fallback={<Html center>Loading...</Html>}>
+				<Camera />
+				<spotLight
+					{...lightConfigs}
+					ref={(cur) => {
+						if (cur) {
+							cur.shadow.blurSamples = 32;
+							datGui.develop((gui) => {
+								const folder = gui.addFolder('Home');
+								folder
+									.add(lightConfigs, 'intensity', 0, 1)
+									.onChange((v) => (cur.intensity = v));
+								folder
+									.addColor(lightConfigs, 'color')
+									.onChange((v) => cur.color.set(v));
 
-							const positionFolder = folder.addFolder('position');
-							positionFolder
-								.add(lightConfigs.position, 'x', -200, 200)
-								.onChange((v) => cur.position.setX(v));
-							positionFolder
-								.add(lightConfigs.position, 'y', -200, 200)
-								.onChange((v) => cur.position.setY(v));
-							positionFolder
-								.add(lightConfigs.position, 'z', -200, 200)
-								.onChange((v) => cur.position.setZ(v));
-						});
-					}
-				}}
-			/>
-			<NavSaturn />
+								const positionFolder =
+									folder.addFolder('position');
+								positionFolder
+									.add(lightConfigs.position, 'x', -200, 200)
+									.onChange((v) => cur.position.setX(v));
+								positionFolder
+									.add(lightConfigs.position, 'y', -200, 200)
+									.onChange((v) => cur.position.setY(v));
+								positionFolder
+									.add(lightConfigs.position, 'z', -200, 200)
+									.onChange((v) => cur.position.setZ(v));
+							});
+						}
+					}}
+				/>
+				<NavSaturn />
+				<Character />
+			</Suspense>
 		</Canvas>
 	);
 };

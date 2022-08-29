@@ -1,9 +1,10 @@
 import React from 'react';
-import * as ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 
 import App from './App';
 
 let domContainer = document.getElementById('react');
 if (domContainer === null) throw new Error('dom container is null.');
 
-ReactDOM.render(<App />, domContainer);
+const root = createRoot(domContainer);
+root.render(<App />);

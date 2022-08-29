@@ -18,6 +18,8 @@ import { Provider } from 'react-redux';
 import store from './store';
 
 function App() {
+  console.log('App render');
+  
 	return (
 		<Provider store={store.store}>
 			<Stats showPanel={0} />

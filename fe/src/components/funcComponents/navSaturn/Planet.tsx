@@ -16,6 +16,8 @@ export type PlanetProps = {
 } & MeshProps;
 
 const Planet = ({ saturnRadius, ...props }: PlanetProps) => {
+  console.log('Render: Planet')
+
 	const material = React.useMemo(() => {
 		const texture = new TextureLoader().load(saturn);
 		texture.encoding = sRGBEncoding;

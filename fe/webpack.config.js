@@ -99,6 +99,10 @@ module.exports = {
 				test: /\.(glsl)$/,
 				type: 'asset/source',
 			},
+			{
+				test: /\.(glb|gltf)$/,
+				type: 'asset/resource',
+			},
 		],
 	},
 };

@@ -14,4 +14,4 @@ const Routing = () =>
 		{ path: `${ROUTES.BASE}${ROUTES.HOMEPAGE.SELF}/*`, element: <Homepage /> },
 	]);
 
-export default Routing;
+export default React.memo(Routing);

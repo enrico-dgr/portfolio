@@ -11,7 +11,7 @@ import { MeshProps } from '@react-three/fiber';
 export type TextProps = { size?: number; text?: string } & MeshProps;
 
 const Text = ({ size = 1, text = '', ...props }: TextProps) => {
-	console.log('render text');
+	console.log('Render: NavSaturn Text');
 
 	const font = React.useMemo(() => new FontLoader().parse(helvetica), []);
 	const geometry = React.useMemo(() => {
@@ -43,4 +43,4 @@ const Text = ({ size = 1, text = '', ...props }: TextProps) => {
 	return <mesh geometry={geometry} material={material} {...props} />;
 };
 
-export default React.memo(Text, () => false);
+export default React.memo(Text);

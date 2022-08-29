@@ -5,7 +5,7 @@ import NavRing from './NavRing';
 import Planet from './Planet';
 
 function NavSaturn() {
-	console.log('render');
+	console.log('Render: NavSaturn');
 
 	const ref = React.useRef<Group>(null);
 	const [ringRotation, set] = React.useState(new Euler(3.14 * (110 / 180)));
@@ -35,4 +35,4 @@ function NavSaturn() {
 	);
 }
 
-export default NavSaturn;
+export default React.memo(NavSaturn);
