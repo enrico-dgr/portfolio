@@ -1,7 +1,6 @@
 import React from 'react';
-import { Object3D } from 'three';
-import { ActionName } from '../../../types/entities/dynamic';
-import { EntityState, System } from '../../../types/systems';
+import { ActionName } from '../../../../types/entities/dynamic';
+import { EntityState, System } from '../../../../types/systems';
 
 type State = {
 	eventAdded: boolean;
@@ -12,7 +11,7 @@ type State = {
 
 type PState = EntityState<'action', ActionName>;
 
-const InputMovement = <Entity extends Object3D>() => {
+const InputMovement = <Entity extends {}>() => {
 	const [state] = React.useState<State>({
 		eventAdded: false,
 		onKeyDown: () => {},
