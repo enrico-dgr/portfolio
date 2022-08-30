@@ -8,15 +8,21 @@ import model from '../../../assets/models3d/character.glb';
 // utility types
 import { UseAnimationAPI } from '../../../types/drei';
 import animation from './animation';
-import { ActionName } from './types';
 import { useFrame } from '@react-three/fiber';
-import { SystemState } from '../../../types/systems';
+import { System, SystemState } from '../../../types/systems';
+import { ActionName } from '../../../types/entities/dynamic';
 
-type State = {
+export type State = {
 	action: SystemState<ActionName>;
 };
 
-const Character = () => {
+export type ESystem = System<GLTF['scene'], State>;
+
+export type Props = {
+  systems?: ESystem[]
+}
+
+const Character = (props: Props) => {
 	console.log('Render: Character');
 
 	//
@@ -36,14 +42,17 @@ const Character = () => {
 		},
 	});
 
+  //
+
 	const update = React.useCallback((state: State) => {
-		state.action.prev = state.action.cur;
+    props.systems?.forEach(s => s(modelGLTF.scene, state));
+    animation(state.action, actions);
+    state.action.prev = state.action.cur;
 	}, []);
 
 	//
 
 	useFrame(() => {
-		animation(state.action, actions);
 		update(state);
 	});
 
@@ -55,4 +64,3 @@ const Character = () => {
 };
 
 export default React.memo(Character);
-export * from './types';

@@ -13,7 +13,7 @@ import NavSaturn from '../../components/funcComponents/navSaturn/NavSaturn';
 
 // style
 import screenStyles from '../../styles/screenStyles';
-import Character from '../../components/funcComponents/character/Character';
+import Player from '../../components/funcComponents/player/Player';
 
 const cameraConfigs = {
 	position: new Vector3(0, 50, 150),
@@ -112,7 +112,7 @@ const Home = () => {
 					}}
 				/>
 				<NavSaturn />
-				<Character />
+				<Player />
 			</Suspense>
 		</Canvas>
 	);

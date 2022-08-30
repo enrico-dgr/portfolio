@@ -1,6 +1,6 @@
 import { UseAnimationAPI } from '../../../types/drei';
+import { ActionName } from '../../../types/entities/dynamic';
 import { SystemState } from '../../../types/systems';
-import { ActionName } from './types';
 
 type Actions = UseAnimationAPI<ActionName>['actions'];
 
