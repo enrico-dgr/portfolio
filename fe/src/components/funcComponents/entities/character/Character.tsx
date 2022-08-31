@@ -12,16 +12,23 @@ import Animation from './Animation';
 // systems
 
 // utility types
-import { UseAnimationAPI } from '../../../../types/drei';
-import { System, SubEntityState } from '../../../../types/systems';
-import { ActionName } from '../../../../types/entities/dynamic';
+import { UseAnimationAPI_Action } from '../../../../types/drei';
+import { System } from '../../../../types/systems';
+import {
+	AnimationName,
+	BasicMovements,
+} from '../../../../types/entities/dynamic';
+import { Group } from 'three';
+
+type AnimationActions = UseAnimationAPI_Action<AnimationName>;
 
 export type State = {
-	action: SubEntityState<ActionName>;
+	action: BasicMovements;
 };
 
 export type Entity = {
-	actions: UseAnimationAPI<ActionName>['actions'];
+	actions: AnimationActions;
+	scene: Group;
 };
 
 export type Props = {
@@ -34,21 +41,22 @@ const Character = (props: Props) => {
 
 	const [state] = React.useState<State>({
 		action: {
-			cur: 'idle',
-			prev: 'walk',
+			forward: false,
+			backward: false,
+			left: false,
+			right: false,
 		},
 	});
 
 	const modelGLTF = useGLTF(model) as GLTF;
 
-	const { actions } = useAnimations(
-		modelGLTF.animations,
-		modelGLTF.scene,
-	) as UseAnimationAPI<ActionName>;
+	const actions = useAnimations(modelGLTF.animations, modelGLTF.scene)
+		.actions as AnimationActions;
 
 	const entity = React.useMemo<Entity>(
 		() => ({
 			actions,
+			scene: modelGLTF.scene,
 		}),
 		[],
 	);
@@ -56,11 +64,9 @@ const Character = (props: Props) => {
 	const [animationSystem] = Animation();
 
 	useFrame(() => {
-		props.systems?.forEach((s) => s(entity, state));
-		animationSystem(entity, state);
-
-		// update previous state values
-		state.action.prev = state.action.cur;
+		[...(props.systems ?? []), animationSystem].forEach((s) =>
+			s(entity, state),
+		);
 	});
 
 	return (

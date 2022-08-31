@@ -1,7 +1,7 @@
 import React from 'react';
 import { keyMap } from '../../../../constants/defaultSettings';
 import { ActionName, BasicMovements } from '../../../../types/entities/dynamic';
-import { System } from '../../../../types/systems';
+import { EntityState, System } from '../../../../types/systems';
 
 type State = {
 	eventAdded: boolean;
@@ -13,9 +13,9 @@ type State = {
 	>;
 };
 
-type EState = Record<'action', BasicMovements>;
+type EState = EntityState<'action', BasicMovements>;
 
-const InputMovement = <Entity extends {}>() => {
+const BasicMovement = <Entity extends {}>() => {
 	const [state] = React.useState<State>({
 		eventAdded: false,
 		onKeyDown: () => {},
@@ -88,4 +88,4 @@ const InputMovement = <Entity extends {}>() => {
 	return [system];
 };
 
-export default InputMovement;
+export default BasicMovement;

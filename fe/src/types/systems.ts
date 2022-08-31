@@ -1,10 +1,6 @@
-export type SubEntityState<T extends any> = { cur: T; prev: T };
-
-export type EntityState<KeyInParentState extends string, T extends any> = {
-	[key in KeyInParentState]: SubEntityState<T>;
-};
-
 export type System<
-	Entity extends {},
-	State extends EntityState<string, any>,
+	Entity extends Record<string, any>,
+	State extends Record<string, any>,
 > = (entity: Entity, parentState: State) => void;
+
+export type SystemSubState<T extends any> = { cur: T; prev: T };

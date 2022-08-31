@@ -1,24 +1,43 @@
 import React from 'react';
-import { UseAnimationAPI } from '../../../../types/drei';
-import { ActionName } from '../../../../types/entities/dynamic';
-import { EntityState, System } from '../../../../types/systems';
+import { UseAnimationAPI_Action } from '../../../../types/drei';
+import { BasicMovements } from '../../../../types/entities/dynamic';
+import { System, SystemSubState } from '../../../../types/systems';
 
-type Actions = UseAnimationAPI<ActionName>['actions'];
+type AnimationName = 'walk' | 'idle';
 
-type PState = EntityState<'action', ActionName>;
+type AnimationActions = UseAnimationAPI_Action<AnimationName>;
 
-const Animation = <
-	Entity extends { actions: UseAnimationAPI<ActionName>['actions'] },
->() => {
+type Entity = { actions: AnimationActions };
+type EState = Record<'action', BasicMovements>;
+
+type State = {
+	animation: SystemSubState<AnimationName>;
+	init: boolean;
+};
+
+const Animation = () => {
+	const [state] = React.useState<State>({
+		animation: {
+			cur: 'idle',
+			prev: 'walk',
+		},
+		init: true,
+	});
+
 	const IdleEnter = React.useCallback(
-		(prevActionName: ActionName, actions: Actions) => {
+		(prevAnimName: AnimationName, actions: AnimationActions) => {
 			console.log('Action: Idle enter');
 
-			const prevAction = actions[prevActionName];
+			const prevAction = actions[prevAnimName];
 
 			actions.idle.enabled = true;
 
-			actions.idle.crossFadeFrom(prevAction, 0.5, true);
+			if (state.init) {
+				actions.idle.fadeIn(0.5);
+				state.init = false;
+			} else {
+				actions.idle.crossFadeFrom(prevAction, 0.5, true);
+			}
 
 			actions.idle.play();
 		},
@@ -26,10 +45,10 @@ const Animation = <
 	);
 
 	const WalkEnter = React.useCallback(
-		(prevActionName: ActionName, actions: Actions) => {
+		(prevAnimName: AnimationName, actions: AnimationActions) => {
 			console.log('Action: Walk enter');
 
-			const prevAction = actions[prevActionName];
+			const prevAnim = actions[prevAnimName];
 			actions.walk.enabled = true;
 
 			// if (prevActionName === 'run') {
@@ -37,27 +56,40 @@ const Animation = <
 			//   actions.walk.time =  prevAction.time * ratio;
 			// }
 
-			actions.walk.crossFadeFrom(prevAction, 0.5, true);
+			actions.walk.crossFadeFrom(prevAnim, 0.5, true);
 			actions.walk.play();
 		},
 		[],
 	);
 
-	const system = React.useCallback<System<Entity, PState>>(
+	const system = React.useCallback<System<Entity, EState>>(
 		(entity, parentState) => {
-			if (parentState.action.cur === parentState.action.prev) {
+			if (
+				parentState.action.forward ||
+				parentState.action.backward ||
+				parentState.action.left ||
+				parentState.action.right
+			) {
+				state.animation.cur = 'walk';
+			} else {
+				state.animation.cur = 'idle';
+			}
+
+			if (state.animation.cur === state.animation.prev) {
 				return;
 			}
 
-			switch (parentState.action.cur) {
+			switch (state.animation.cur) {
 				case 'idle':
-					IdleEnter(parentState.action.prev, entity.actions);
+					IdleEnter(state.animation.prev, entity.actions);
 					break;
 
 				case 'walk':
-					WalkEnter(parentState.action.prev, entity.actions);
+					WalkEnter(state.animation.prev, entity.actions);
 					break;
 			}
+
+			state.animation.prev = state.animation.cur;
 		},
 		[],
 	);
