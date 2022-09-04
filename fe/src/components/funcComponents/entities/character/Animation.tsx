@@ -1,3 +1,4 @@
+import { useFrame } from '@react-three/fiber';
 import React from 'react';
 import { UseAnimationAPI_Action } from '../../../../types/drei';
 import { BasicMovements } from '../../../../types/entities/dynamic';
@@ -15,7 +16,7 @@ type State = {
 	init: boolean;
 };
 
-const Animation = () => {
+const Animation: System<Entity, EState> = ({ entity, eState }) => {
 	const [state] = React.useState<State>({
 		animation: {
 			cur: 'idle',
@@ -62,39 +63,36 @@ const Animation = () => {
 		[],
 	);
 
-	const system = React.useCallback<System<Entity, EState>>(
-		(entity, parentState) => {
-			if (
-				parentState.action.forward ||
-				parentState.action.backward ||
-				parentState.action.left ||
-				parentState.action.right
-			) {
-				state.animation.cur = 'walk';
-			} else {
-				state.animation.cur = 'idle';
-			}
+	useFrame(() => {
+		if (
+			eState.action.forward ||
+			eState.action.backward ||
+			eState.action.left ||
+			eState.action.right
+		) {
+			state.animation.cur = 'walk';
+		} else {
+			state.animation.cur = 'idle';
+		}
 
-			if (state.animation.cur === state.animation.prev) {
-				return;
-			}
+		if (state.animation.cur === state.animation.prev) {
+			return;
+		}
 
-			switch (state.animation.cur) {
-				case 'idle':
-					IdleEnter(state.animation.prev, entity.actions);
-					break;
+		switch (state.animation.cur) {
+			case 'idle':
+				IdleEnter(state.animation.prev, entity.actions);
+				break;
 
-				case 'walk':
-					WalkEnter(state.animation.prev, entity.actions);
-					break;
-			}
+			case 'walk':
+				WalkEnter(state.animation.prev, entity.actions);
+				break;
+		}
 
-			state.animation.prev = state.animation.cur;
-		},
-		[],
-	);
+		state.animation.prev = state.animation.cur;
+	});
 
-	return [system];
+	return <></>;
 };
 
 export default Animation;

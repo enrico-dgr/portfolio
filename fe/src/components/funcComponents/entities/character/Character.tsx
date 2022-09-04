@@ -1,6 +1,5 @@
 import React, { Suspense } from 'react';
 import { useGLTF, useAnimations } from '@react-three/drei';
-import { useFrame } from '@react-three/fiber';
 import { GLTF } from 'three-stdlib';
 
 // assets
@@ -19,6 +18,7 @@ import {
 	BasicMovements,
 } from '../../../../types/entities/dynamic';
 import { Group } from 'three';
+import BasicMovement from '../../systems/basicMovement/BasicMovement';
 
 type AnimationActions = UseAnimationAPI_Action<AnimationName>;
 
@@ -32,6 +32,7 @@ export type Entity = {
 };
 
 export type Props = {
+	children?: React.ReactNode;
 	systems?: System<Entity, State>[];
 };
 
@@ -61,17 +62,20 @@ const Character = (props: Props) => {
 		[],
 	);
 
-	const [animationSystem] = Animation();
-
-	useFrame(() => {
-		[...(props.systems ?? []), animationSystem].forEach((s) =>
-			s(entity, state),
-		);
-	});
+	const systems = React.useMemo(() => {
+		return [...(props.systems ?? [])].map((S, i) => (
+			<S entity={entity} eState={state} key={S.name + i} />
+		));
+	}, []);
 
 	return (
 		<Suspense fallback={null}>
-			<primitive object={modelGLTF.scene} />
+			<primitive object={modelGLTF.scene}>
+				{props.children}
+				{systems}
+				<Animation entity={entity} eState={state} />
+				<BasicMovement entity={entity} eState={state} />
+			</primitive>
 		</Suspense>
 	);
 };

@@ -1,91 +1,46 @@
 import React from 'react';
-import { keyMap } from '../../../../constants/defaultSettings';
-import { ActionName, BasicMovements } from '../../../../types/entities/dynamic';
-import { EntityState, System } from '../../../../types/systems';
+import { Object3D, Vector3 } from 'three';
+import { BasicMovements } from '../../../../types/entities/dynamic';
+import { System } from '../../../../types/systems';
+import { useFrame } from '@react-three/fiber';
+
+type Entity = { scene: Object3D };
+type EState = Record<'action', BasicMovements>;
 
 type State = {
-	eventAdded: boolean;
-	onKeyDown: (e: KeyboardEvent) => void;
-	onKeyUp: (e: KeyboardEvent) => void;
-	movements: Record<
-		Extract<ActionName, 'forward' | 'backward' | 'left' | 'right'>,
-		boolean
-	>;
+	speed: number;
+	time: number;
+	value: number;
+	vectorBuffer: Vector3;
 };
 
-type EState = EntityState<'action', BasicMovements>;
+const BasicMovement: System<Entity, EState> = ({ entity, eState }) => {
+	console.log('System: BasicMovement');
 
-const BasicMovement = <Entity extends {}>() => {
 	const [state] = React.useState<State>({
-		eventAdded: false,
-		onKeyDown: () => {},
-		onKeyUp: () => {},
-		movements: {
-			forward: false,
-			backward: false,
-			left: false,
-			right: false,
-		},
+		speed: 8,
+		time: 0,
+		value: 0,
+		vectorBuffer: new Vector3(0, 0, 0),
 	});
 
-	const onKeyDown = React.useCallback(
-		(pS: EState) =>
-			(e: KeyboardEvent): void => {
-				for (const key_ in keyMap) {
-					const key = key_ as ActionName;
+	useFrame((s) => {
+		state.value = state.speed * (s.clock.elapsedTime - state.time);
+		state.time = s.clock.elapsedTime;
 
-					if (
-						Object.prototype.hasOwnProperty.call(keyMap, key) &&
-						e.key === keyMap[key]
-					) {
-						pS.action[key] = true;
-						return;
-					}
-				}
-			},
-		[],
-	);
+		if (eState.action.forward) {
+			entity.scene.position.z -= state.value;
+		} else if (eState.action.backward) {
+			entity.scene.position.z += state.value;
+		}
+		if (eState.action.right) {
+			entity.scene.position.x += state.value;
+		} else if (eState.action.left) {
+			entity.scene.position.x -= state.value;
+		}
+	});
 
-	const onKeyUp = React.useCallback(
-		(pS: EState) =>
-			(e: KeyboardEvent): void => {
-				for (const key_ in keyMap) {
-					const key = key_ as ActionName;
-
-					if (
-						Object.prototype.hasOwnProperty.call(keyMap, key) &&
-						e.key === keyMap[key]
-					) {
-						pS.action[key] = false;
-						return;
-					}
-				}
-			},
-		[],
-	);
-
-	const system = React.useCallback<System<Entity, EState>>(
-		(_, parentState) => {
-			if (state.eventAdded) return;
-
-			state.onKeyDown = onKeyDown(parentState);
-			state.onKeyUp = onKeyUp(parentState);
-
-			document.addEventListener('keydown', state.onKeyDown);
-			document.addEventListener('keyup', state.onKeyUp);
-			state.eventAdded = true;
-		},
-		[],
-	);
-
-	React.useEffect(() => {
-		return () => {
-			document.removeEventListener('keydown', state.onKeyDown);
-			document.removeEventListener('keyup', state.onKeyUp);
-		};
-	}, []);
-
-	return [system];
+	return <></>;
 };
 
 export default BasicMovement;

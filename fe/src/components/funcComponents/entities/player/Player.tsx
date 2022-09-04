@@ -12,9 +12,7 @@ import InputMovement from '../../systems/inputMovement/InputMovement';
 const Player = () => {
 	console.log('Render: Player');
 
-  const [inputSystem] = InputMovement()
-
-	return <Character systems={[inputSystem]} />;
+	return <Character systems={[InputMovement]} />;
 };
 
 export default Player;

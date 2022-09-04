@@ -16,9 +16,9 @@ import screenStyles from '../../styles/screenStyles';
 import Player from '../../components/funcComponents/entities/player/Player';
 
 const cameraConfigs = {
-	position: new Vector3(0, 50, 150),
+	position: new Vector3(0, 15, 30),
 	aspect: window.innerWidth / window.innerHeight,
-	fov: 10,
+	fov: 50,
 };
 
 const Camera = () => {
@@ -50,7 +50,7 @@ const Camera = () => {
 	}, []);
 	return <></>;
 };
-
+Camera
 const lightConfigs = {
 	castShadow: true,
 	color: 0xffffff,
@@ -65,6 +65,8 @@ const Home = () => {
 			camera={{
 				fov: cameraConfigs.fov,
 				aspect: cameraConfigs.aspect,
+        near: 1,
+        far: 10000
 			}}
 			gl={{
 				antialias: true,

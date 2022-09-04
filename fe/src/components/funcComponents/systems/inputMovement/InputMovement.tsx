@@ -4,7 +4,6 @@ import { ActionName, BasicMovements } from '../../../../types/entities/dynamic';
 import { System } from '../../../../types/systems';
 
 type State = {
-	eventAdded: boolean;
 	onKeyDown: (e: KeyboardEvent) => void;
 	onKeyUp: (e: KeyboardEvent) => void;
 	movements: Record<
@@ -13,11 +12,13 @@ type State = {
 	>;
 };
 
+type Entity = {};
 type EState = Record<'action', BasicMovements>;
 
-const InputMovement = <Entity extends {}>() => {
+const InputMovement: System<Entity, EState> = ({ eState }) => {
+  console.log('System: InputMovement');
+
 	const [state] = React.useState<State>({
-		eventAdded: false,
 		onKeyDown: () => {},
 		onKeyUp: () => {},
 		movements: {
@@ -31,16 +32,19 @@ const InputMovement = <Entity extends {}>() => {
 	const onKeyDown = React.useCallback(
 		(pS: EState) =>
 			(e: KeyboardEvent): void => {
-				for (const key_ in keyMap) {
-					const key = key_ as ActionName;
-
-					if (
-						Object.prototype.hasOwnProperty.call(keyMap, key) &&
-						e.key === keyMap[key]
-					) {
-						pS.action[key] = true;
-						return;
-					}
+				switch (e.key) {
+					case keyMap['forward']:
+						pS.action.forward = true;
+						break;
+					case keyMap['backward']:
+						pS.action.backward = true;
+						break;
+					case keyMap['left']:
+						pS.action.left = true;
+						break;
+					case keyMap['right']:
+						pS.action.right = true;
+						break;
 				}
 			},
 		[],
@@ -49,43 +53,38 @@ const InputMovement = <Entity extends {}>() => {
 	const onKeyUp = React.useCallback(
 		(pS: EState) =>
 			(e: KeyboardEvent): void => {
-				for (const key_ in keyMap) {
-					const key = key_ as ActionName;
-
-					if (
-						Object.prototype.hasOwnProperty.call(keyMap, key) &&
-						e.key === keyMap[key]
-					) {
-						pS.action[key] = false;
-						return;
-					}
+				switch (e.key) {
+					case keyMap['forward']:
+						pS.action.forward = false;
+						break;
+					case keyMap['backward']:
+						pS.action.backward = false;
+						break;
+					case keyMap['left']:
+						pS.action.left = false;
+						break;
+					case keyMap['right']:
+						pS.action.right = false;
+						break;
 				}
 			},
 		[],
 	);
 
-	const system = React.useCallback<System<Entity, EState>>(
-		(_, parentState) => {
-			if (state.eventAdded) return;
-
-			state.onKeyDown = onKeyDown(parentState);
-			state.onKeyUp = onKeyUp(parentState);
-
-			document.addEventListener('keydown', state.onKeyDown);
-			document.addEventListener('keyup', state.onKeyUp);
-			state.eventAdded = true;
-		},
-		[],
-	);
-
 	React.useEffect(() => {
+		state.onKeyDown = onKeyDown(eState);
+		state.onKeyUp = onKeyUp(eState);
+
+		document.addEventListener('keydown', state.onKeyDown);
+		document.addEventListener('keyup', state.onKeyUp);
+
 		return () => {
 			document.removeEventListener('keydown', state.onKeyDown);
 			document.removeEventListener('keyup', state.onKeyUp);
 		};
 	}, []);
 
-	return [system];
+	return <></>;
 };
 
 export default InputMovement;
