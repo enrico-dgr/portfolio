@@ -2,27 +2,27 @@ import React, { Suspense } from 'react';
 import { useGLTF, useAnimations } from '@react-three/drei';
 import { GLTF } from 'three-stdlib';
 
-// assets
+// -- entities
+
+// -- assets
 import model from '../../../../assets/models3d/character.glb';
 
-// inner systems
+// -- systems
 import Animation from './Animation';
 
-// systems
-
-// utility types
+// -- utility types
 import { UseAnimationAPI_Action } from '../../../../types/drei';
-import { System } from '../../../../types/systems';
 import {
 	AnimationName,
 	BasicMovements,
 } from '../../../../types/entities/dynamic';
 import { Group } from 'three';
 import BasicMovement from '../../systems/basicMovement/BasicMovement';
+import { EntityComponent, State } from '../../../../types/entities/component';
 
 type AnimationActions = UseAnimationAPI_Action<AnimationName>;
 
-export type State = {
+export type EState = {
 	action: BasicMovements;
 };
 
@@ -31,24 +31,11 @@ export type Entity = {
 	scene: Group;
 };
 
-export type Props = {
-	children?: React.ReactNode;
-	systems?: System<Entity, State>[];
-};
-
-// component
-const Character = (props: Props) => {
+// -- component
+const Character: EntityComponent<Entity, EState> = (props) => {
 	console.log('Render: Character');
 
-	const [state] = React.useState<State>({
-		action: {
-			forward: false,
-			backward: false,
-			left: false,
-			right: false,
-		},
-	});
-
+  // -- preload
 	const modelGLTF = useGLTF(model) as GLTF;
 
 	const actions = useAnimations(modelGLTF.animations, modelGLTF.scene)
@@ -62,19 +49,33 @@ const Character = (props: Props) => {
 		[],
 	);
 
-	const systems = React.useMemo(() => {
-		return [...(props.systems ?? [])].map((S, i) => (
-			<S entity={entity} eState={state} key={S.name + i} />
-		));
-	}, []);
+  // -- state and rendering
+	const [state] = React.useState<State<Entity, EState>>({
+		entity,
+		eState: {
+			action: {
+				forward: false,
+				backward: false,
+				left: false,
+				right: false,
+			},
+		},
+	});
+
+	React.useEffect(() => {
+		props.getState && props.getState(state);
+	}, [state]);
 
 	return (
 		<Suspense fallback={null}>
 			<primitive object={modelGLTF.scene}>
 				{props.children}
-				{systems}
-				<Animation entity={entity} eState={state} />
-				<BasicMovement entity={entity} eState={state} />
+				{!!state && (
+					<>
+						<Animation entity={entity} eState={state.eState} />
+						<BasicMovement entity={entity} eState={state.eState} />
+					</>
+				)}
 			</primitive>
 		</Suspense>
 	);

@@ -1,18 +1,44 @@
 import React from 'react';
-import Character from '../character/Character';
 
-// inner systems
+// -- entities
+import Character, * as Character_ from '../character/Character';
 
-// systems
+// -- assets
+
+// -- systems
 import InputMovement from '../../systems/inputMovement/InputMovement';
+import { EntityComponent, State } from '../../../../types/entities/component';
 
-// utility types
+// -- utility types
 
-// component
-const Player = () => {
+// -- component
+const Player: EntityComponent<Character_.Entity, Character_.EState> = (
+	props,
+) => {
 	console.log('Render: Player');
 
-	return <Character systems={[InputMovement]} />;
+	// -- preload
+
+	// -- state and rendering
+	const [state, setState] =
+		React.useState<State<Character_.Entity, Character_.EState>>();
+
+	React.useEffect(() => {
+		props.getState && props.getState(state);
+	}, [state]);
+
+	return (
+		<Character getState={setState}>
+			{!!state && (
+				<>
+					<InputMovement
+						entity={state.entity}
+						eState={state.eState}
+					/>
+				</>
+			)}
+		</Character>
+	);
 };
 
 export default Player;
