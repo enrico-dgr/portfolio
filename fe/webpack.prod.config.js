@@ -40,19 +40,19 @@ module.exports = {
 		rules: [
 			{
 				test: /\.tsx?$/,
-				use: "ts-loader",
+				use: 'ts-loader',
 				exclude: /node_modules/,
 			},
 			{
 				test: /\.(png|jpe?g|gif)$/i,
-				loader: "url-loader",
+				loader: 'url-loader',
 				options: {
 					limit: 8192,
 				},
 			},
 			{
 				test: /\.woff2$/i,
-				loader: "url-loader",
+				loader: 'url-loader',
 				options: {
 					limit: 8192,
 				},
@@ -61,22 +61,22 @@ module.exports = {
 				test: /\.s[ac]ss$/i,
 				use: [
 					{
-						loader: "style-loader",
+						loader: 'style-loader',
 						options: {},
 					},
 					{
-						loader: "css-loader",
+						loader: 'css-loader',
 						options: {},
 					},
 					{
-						loader: "resolve-url-loader",
+						loader: 'resolve-url-loader',
 						options: {},
 					},
 					{
-						loader: "sass-loader",
+						loader: 'sass-loader',
 						options: {
 							sourceMap: true,
-							implementation: require("sass"),
+							implementation: require('sass'),
 						},
 					},
 				],
@@ -85,9 +85,20 @@ module.exports = {
 				test: /\.md$/,
 				use: [
 					{
-						loader: "html-loader",
+						loader: 'html-loader',
+					},
+					{
+						loader: 'markdown-loader',
 					},
 				],
+			},
+			{
+				test: /\.(glsl)$/,
+				type: 'asset/source',
+			},
+			{
+				test: /\.(glb|gltf)$/,
+				type: 'asset/resource',
 			},
 		],
 	},
