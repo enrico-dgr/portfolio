@@ -1,32 +1,22 @@
 import React from 'react';
 import { keyMap } from '../../../../constants/defaultSettings';
-import { ActionName, BasicMovements } from '../../../../types/entities/dynamic';
+import { BasicMovements } from '../../../../types/entities/dynamic';
 import { System } from '../../../../types/systems';
 
 type State = {
 	onKeyDown: (e: KeyboardEvent) => void;
 	onKeyUp: (e: KeyboardEvent) => void;
-	movements: Record<
-		Extract<ActionName, 'forward' | 'backward' | 'left' | 'right'>,
-		boolean
-	>;
 };
 
 type Entity = {};
 type EState = Record<'action', BasicMovements>;
 
 const InputMovement: System<Entity, EState> = ({ eState }) => {
-  console.log('System: InputMovement');
+	console.log('System: InputMovement');
 
 	const [state] = React.useState<State>({
 		onKeyDown: () => {},
 		onKeyUp: () => {},
-		movements: {
-			forward: false,
-			backward: false,
-			left: false,
-			right: false,
-		},
 	});
 
 	const onKeyDown = React.useCallback(

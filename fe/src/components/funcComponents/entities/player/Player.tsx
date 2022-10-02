@@ -8,6 +8,10 @@ import Character, * as Character_ from '../character/Character';
 // -- systems
 import InputMovement from '../../systems/inputMovement/InputMovement';
 import { EntityComponent, State } from '../../../../types/entities/component';
+import Camera from '../camera/Camera';
+import { Vector3 } from 'three';
+import InputRotation from '../../systems/inputRotation/InputRotation';
+import { PointerLockControls } from '@react-three/drei';
 
 // -- utility types
 
@@ -31,10 +35,16 @@ const Player: EntityComponent<Character_.Entity, Character_.EState> = (
 		<Character getState={setState}>
 			{!!state && (
 				<>
+					<Camera position={new Vector3(2.5, 10.5, 9)} />
 					<InputMovement
 						entity={state.entity}
 						eState={state.eState}
 					/>
+					<InputRotation
+						entity={state.entity}
+						eState={state.eState}
+					/>
+          <PointerLockControls />
 				</>
 			)}
 		</Character>

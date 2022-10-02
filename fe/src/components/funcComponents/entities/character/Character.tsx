@@ -15,15 +15,17 @@ import { UseAnimationAPI_Action } from '../../../../types/drei';
 import {
 	AnimationName,
 	BasicMovements,
+	BasicRotations,
 } from '../../../../types/entities/dynamic';
 import { Group } from 'three';
 import BasicMovement from '../../systems/basicMovement/BasicMovement';
 import { EntityComponent, State } from '../../../../types/entities/component';
+import BasicRotation from '../../systems/basicRotation/BasicRotation';
 
 type AnimationActions = UseAnimationAPI_Action<AnimationName>;
 
 export type EState = {
-	action: BasicMovements;
+	action: BasicMovements & BasicRotations;
 };
 
 export type Entity = {
@@ -35,7 +37,7 @@ export type Entity = {
 const Character: EntityComponent<Entity, EState> = (props) => {
 	console.log('Render: Character');
 
-  // -- preload
+	// -- preload
 	const modelGLTF = useGLTF(model) as GLTF;
 
 	const actions = useAnimations(modelGLTF.animations, modelGLTF.scene)
@@ -49,7 +51,7 @@ const Character: EntityComponent<Entity, EState> = (props) => {
 		[],
 	);
 
-  // -- state and rendering
+	// -- state and rendering
 	const [state] = React.useState<State<Entity, EState>>({
 		entity,
 		eState: {
@@ -58,6 +60,8 @@ const Character: EntityComponent<Entity, EState> = (props) => {
 				backward: false,
 				left: false,
 				right: false,
+				horizontalTurn: 0,
+				verticalTurn: 0,
 			},
 		},
 	});
@@ -74,6 +78,7 @@ const Character: EntityComponent<Entity, EState> = (props) => {
 					<>
 						<Animation entity={entity} eState={state.eState} />
 						<BasicMovement entity={entity} eState={state.eState} />
+						<BasicRotation entity={entity} eState={state.eState} />
 					</>
 				)}
 			</primitive>

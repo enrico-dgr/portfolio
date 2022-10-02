@@ -50,7 +50,7 @@ const Camera = () => {
 	}, []);
 	return <></>;
 };
-Camera
+Camera;
 const lightConfigs = {
 	castShadow: true,
 	color: 0xffffff,
@@ -65,8 +65,8 @@ const Home = () => {
 			camera={{
 				fov: cameraConfigs.fov,
 				aspect: cameraConfigs.aspect,
-        near: 1,
-        far: 10000
+				near: 1,
+				far: 10000,
 			}}
 			gl={{
 				antialias: true,
@@ -83,7 +83,6 @@ const Home = () => {
 			style={screenStyles.styleContainer}
 		>
 			<Suspense fallback={<Html center>Loading...</Html>}>
-				<Camera />
 				<spotLight
 					{...lightConfigs}
 					ref={(cur) => {
