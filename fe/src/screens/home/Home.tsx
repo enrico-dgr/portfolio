@@ -14,6 +14,8 @@ import NavSaturn from '../../components/funcComponents/navSaturn/NavSaturn';
 // style
 import screenStyles from '../../styles/screenStyles';
 import Player from '../../components/funcComponents/entities/player/Player';
+import Menu from '../../components/funcComponents/entities/menu/Menu';
+import PointerLockCtrl from '../../components/funcComponents/controllers/pointerLockCtrl/PointerLockCtrl';
 
 const cameraConfigs = {
 	position: new Vector3(0, 15, 30),
@@ -61,61 +63,80 @@ const lightConfigs = {
 const Home = () => {
 	console.log('Home render');
 	return (
-		<Canvas
-			camera={{
-				fov: cameraConfigs.fov,
-				aspect: cameraConfigs.aspect,
-				near: 1,
-				far: 10000,
-			}}
-			gl={{
-				antialias: true,
-				shadowMap: {
-					type: PCFSoftShadowMap,
-					autoUpdate: true,
-					enabled: true,
-					needsUpdate: true,
-					render: () => undefined,
-					cullFace: DoubleSide,
-				},
-			}}
-			shadows
-			style={screenStyles.styleContainer}
-		>
-			<Suspense fallback={<Html center>Loading...</Html>}>
-				<spotLight
-					{...lightConfigs}
-					ref={(cur) => {
-						if (cur) {
-							cur.shadow.blurSamples = 32;
-							datGui.develop((gui) => {
-								const folder = gui.addFolder('Home');
-								folder
-									.add(lightConfigs, 'intensity', 0, 1)
-									.onChange((v) => (cur.intensity = v));
-								folder
-									.addColor(lightConfigs, 'color')
-									.onChange((v) => cur.color.set(v));
+		<>
+			<Menu />
+			<Canvas
+				camera={{
+					fov: cameraConfigs.fov,
+					aspect: cameraConfigs.aspect,
+					near: 1,
+					far: 10000,
+				}}
+				gl={{
+					antialias: true,
+					shadowMap: {
+						type: PCFSoftShadowMap,
+						autoUpdate: true,
+						enabled: true,
+						needsUpdate: true,
+						render: () => undefined,
+						cullFace: DoubleSide,
+					},
+				}}
+				shadows
+				style={screenStyles.styleContainer}
+			>
+				<Suspense fallback={<Html center>Loading...</Html>}>
+					<spotLight
+						{...lightConfigs}
+						ref={(cur) => {
+							if (cur) {
+								cur.shadow.blurSamples = 32;
+								datGui.develop((gui) => {
+									const folder = gui.addFolder('Home');
+									folder
+										.add(lightConfigs, 'intensity', 0, 1)
+										.onChange((v) => (cur.intensity = v));
+									folder
+										.addColor(lightConfigs, 'color')
+										.onChange((v) => cur.color.set(v));
 
-								const positionFolder =
-									folder.addFolder('position');
-								positionFolder
-									.add(lightConfigs.position, 'x', -200, 200)
-									.onChange((v) => cur.position.setX(v));
-								positionFolder
-									.add(lightConfigs.position, 'y', -200, 200)
-									.onChange((v) => cur.position.setY(v));
-								positionFolder
-									.add(lightConfigs.position, 'z', -200, 200)
-									.onChange((v) => cur.position.setZ(v));
-							});
-						}
-					}}
-				/>
-				<NavSaturn />
-				<Player />
-			</Suspense>
-		</Canvas>
+									const positionFolder =
+										folder.addFolder('position');
+									positionFolder
+										.add(
+											lightConfigs.position,
+											'x',
+											-200,
+											200,
+										)
+										.onChange((v) => cur.position.setX(v));
+									positionFolder
+										.add(
+											lightConfigs.position,
+											'y',
+											-200,
+											200,
+										)
+										.onChange((v) => cur.position.setY(v));
+									positionFolder
+										.add(
+											lightConfigs.position,
+											'z',
+											-200,
+											200,
+										)
+										.onChange((v) => cur.position.setZ(v));
+								});
+							}
+						}}
+					/>
+					<NavSaturn />
+					<PointerLockCtrl />
+					<Player />
+				</Suspense>
+			</Canvas>
+		</>
 	);
 };
 

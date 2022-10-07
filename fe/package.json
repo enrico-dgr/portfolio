@@ -63,6 +63,7 @@
 		"express": "^4.17.2",
 		"react-helmet": "^6.1.0",
 		"react-spring": "^9.5.2",
-		"three": "^0.143.0"
+		"three": "^0.143.0",
+		"three-stdlib": "^2.17.2"
 	}
 }

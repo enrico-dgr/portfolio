@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 // -- entities
 import Character, * as Character_ from '../character/Character';
@@ -11,7 +11,6 @@ import { EntityComponent, State } from '../../../../types/entities/component';
 import Camera from '../camera/Camera';
 import { Vector3 } from 'three';
 import InputRotation from '../../systems/inputRotation/InputRotation';
-import { PointerLockControls } from '@react-three/drei';
 
 // -- utility types
 
@@ -31,11 +30,16 @@ const Player: EntityComponent<Character_.Entity, Character_.EState> = (
 		props.getState && props.getState(state);
 	}, [state]);
 
+	const configs = useMemo(
+		() => ({ camera: { position: new Vector3(2.5, 10.5, 0) } }),
+		[],
+	);
+
 	return (
 		<Character getState={setState}>
 			{!!state && (
 				<>
-					<Camera position={new Vector3(2.5, 10.5, 9)} />
+					<Camera position={configs.camera.position} />
 					<InputMovement
 						entity={state.entity}
 						eState={state.eState}
@@ -44,7 +48,6 @@ const Player: EntityComponent<Character_.Entity, Character_.EState> = (
 						entity={state.entity}
 						eState={state.eState}
 					/>
-          <PointerLockControls />
 				</>
 			)}
 		</Character>
