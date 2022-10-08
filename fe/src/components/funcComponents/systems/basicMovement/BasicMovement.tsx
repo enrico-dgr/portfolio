@@ -1,11 +1,11 @@
 import React from 'react';
 import { Object3D, Vector3 } from 'three';
-import { BasicMovements } from '../../../../types/entities/dynamic';
+import { BasicMovements, BasicRotations } from '../../../../types/entities/dynamic';
 import { System } from '../../../../types/systems';
 import { useFrame } from '@react-three/fiber';
 
 type Entity = { object: Object3D };
-type EState = Record<'action', BasicMovements>;
+type EState = Record<'action', BasicMovements & BasicRotations>;
 
 type State = {
 	speed: number;
@@ -27,6 +27,10 @@ const BasicMovement: System<Entity, EState> = ({ entity, eState }) => {
 	useFrame((s) => {
 		state.value = state.speed * (s.clock.elapsedTime - state.time);
 		state.time = s.clock.elapsedTime;
+
+    // state.vectorBuffer.set(
+      
+    // )
 
 		if (eState.action.forward) {
 			entity.object.position.z -= state.value;

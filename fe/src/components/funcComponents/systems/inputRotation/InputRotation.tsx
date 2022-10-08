@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { BasicRotations } from '../../../../types/entities/dynamic';
 import { System } from '../../../../types/systems';
 
 type State = {
 	onMouseMove: (e: MouseEvent) => void;
+	init: BasicRotations;
+	xMax?: number;
+	xMin?: number;
 };
 
 type Entity = {};
@@ -13,17 +16,24 @@ type Props = {
 	 * If not specified, both directions will be updated
 	 */
 	direction?: 'vertical' | 'horizontal';
+	maxDeltaXAngle?: number;
+	minDeltaXAngle?: number;
 };
 
-const InputRotation: System<Entity, EState, Props> = ({
-	eState,
-	direction,
-}) => {
+const InputRotation: System<Entity, EState, Props> = (props) => {
 	console.log('System: InputRotation');
 
 	const [state] = React.useState<State>({
 		onMouseMove: () => {},
+		init: { horizontalTurn: 0, verticalTurn: 0 },
+		xMax: undefined,
+		xMin: undefined,
 	});
+
+	const toRadians = useCallback(
+		(angle: number) => (angle * Math.PI) / 180,
+		[],
+	);
 
 	const onMouseMove = React.useCallback(
 		(pS: EState) =>
@@ -31,30 +41,48 @@ const InputRotation: System<Entity, EState, Props> = ({
 				if (!document.pointerLockElement) {
 					return;
 				}
-				const PI_2 = Math.PI * 0.5;
-				const toRadians = (angle: number) => (angle * PI_2) / 90;
-				const maxPolarAngle = toRadians(60);
-				const minPolarAngle = -toRadians(30);
 
-				if (direction !== 'horizontal') {
+				if (props.direction !== 'horizontal') {
 					pS.action.verticalTurn -= e.movementY * Math.PI * 0.001;
-					pS.action.verticalTurn = Math.max(
-						minPolarAngle,
-						Math.min(maxPolarAngle, pS.action.verticalTurn),
-					);
-
-					console.log(pS.action.verticalTurn);
 				}
 
-				if (direction !== 'vertical') {
+				if (props.direction !== 'vertical') {
 					pS.action.horizontalTurn -= e.movementX * Math.PI * 0.001;
 				}
+
+				if (state.xMax) {
+					pS.action.verticalTurn = Math.min(
+						state.xMax,
+						pS.action.verticalTurn,
+					);
+				}
+
+				if (state.xMin) {
+					pS.action.verticalTurn = Math.max(
+						state.xMin,
+						pS.action.verticalTurn,
+					);
+				}
+
+        console.log(pS.action.horizontalTurn);
 			},
 		[],
 	);
 
 	React.useEffect(() => {
-		state.onMouseMove = onMouseMove(eState);
+		state.onMouseMove = onMouseMove(props.eState);
+		state.init.horizontalTurn = props.eState.action.horizontalTurn;
+		state.init.verticalTurn = props.eState.action.verticalTurn;
+
+		if (props.maxDeltaXAngle) {
+			state.xMax =
+				state.init.verticalTurn + toRadians(props.maxDeltaXAngle);
+		}
+
+		if (props.minDeltaXAngle) {
+			state.xMin =
+				state.init.verticalTurn + toRadians(props.minDeltaXAngle);
+		}
 
 		document.addEventListener('mousemove', state.onMouseMove);
 

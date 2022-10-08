@@ -33,7 +33,7 @@ const Player: EntityComponent<Character_.Entity, Character_.EState> = (
 	}, [state]);
 
 	const configs = React.useMemo(
-		() => ({ camera: { position: new Vector3(2.5, 10.5, 0) } }),
+		() => ({ camera: { position: new Vector3(2.5, 11, 5) } }),
 		[],
 	);
 
