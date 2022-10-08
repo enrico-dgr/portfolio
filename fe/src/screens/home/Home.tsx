@@ -15,7 +15,7 @@ import NavSaturn from '../../components/funcComponents/navSaturn/NavSaturn';
 import screenStyles from '../../styles/screenStyles';
 import Player from '../../components/funcComponents/entities/player/Player';
 import Menu from '../../components/funcComponents/entities/menu/Menu';
-import PointerLockCtrl from '../../components/funcComponents/controllers/pointerLockCtrl/PointerLockCtrl';
+import PLController from '../../components/funcComponents/controllers/pointerLockController/PointerLockController';
 
 const cameraConfigs = {
 	position: new Vector3(0, 15, 30),
@@ -132,7 +132,7 @@ const Home = () => {
 						}}
 					/>
 					<NavSaturn />
-					<PointerLockCtrl />
+					<PLController />
 					<Player />
 				</Suspense>
 			</Canvas>

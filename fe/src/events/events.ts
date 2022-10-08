@@ -1,31 +1,30 @@
-type EventsTypes = 'requestPointerLock' | 'requestPointerUnlock';
+type EventsTypes = 'unlockPointer' | 'lockPointer';
 
-interface EventPrimitive<T extends EventsTypes, D extends {}> {
-	type: T;
-	data: D;
-}
+type EventPrimitive<T extends EventsTypes, D extends {}> = { type: T; data: D };
 
-type PointerLockEvent = EventPrimitive<
-	'requestPointerLock' | 'requestPointerUnlock',
+export type PointerLockEvent = EventPrimitive<
+	'lockPointer',
 	{
 		subscriberName: string;
 	}
 >;
 
-type GameEvent = PointerLockEvent;
+export type PointerUnlockEvent = EventPrimitive<
+	'unlockPointer',
+	{
+		subscriberName: string;
+	}
+>;
+
+type GameEvent = PointerLockEvent | PointerUnlockEvent;
 
 type Listener<T extends EventsTypes> = (
-	event: Extract<
-		GameEvent,
-		{
-			type: T;
-		}
-	>,
+	event: Extract<GameEvent, EventPrimitive<T, {}>>['data'],
 ) => void;
 
 const listeners: { [K in EventsTypes]: Listener<K>[] } = {
-	requestPointerLock: [],
-	requestPointerUnlock: [],
+	lockPointer: [],
+	unlockPointer: [],
 };
 
 const addListener = <T extends EventsTypes>(type: T, listener: Listener<T>) => {
@@ -43,9 +42,7 @@ const removeListener = <T extends EventsTypes>(
 };
 
 const dispatch = (event: GameEvent) => {
-	listeners[event.type].forEach((l) =>
-		(l as Listener<typeof event.type>)(event),
-	);
+	listeners[event.type].forEach((l) => l(event.data));
 };
 
 export default {

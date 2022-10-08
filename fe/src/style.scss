@@ -28,6 +28,7 @@ body {
   position: fixed;
   left: 0;
   top: 0;
+  z-index: 1;
 
 	&__interface {
     height: max-content;

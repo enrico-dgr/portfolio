@@ -4,10 +4,10 @@ import events from '../../../../events/events';
 
 const Menu = () => {
 	const [state, setState] = useState({
-		menuOpen: false,
+		menuOpen: true,
 	});
 
-	const openClose = useCallback((e: KeyboardEvent): void => {
+	const open = useCallback((e: KeyboardEvent) => {
 		switch (e.key) {
 			case keyMap['menu']:
 				setState((s) => {
@@ -17,23 +17,40 @@ const Menu = () => {
 		}
 	}, []);
 
+	const close = useCallback(() => {
+		setState((s) => {
+			return { ...s, menuOpen: false };
+		});
+	}, []);
+
+	const detectDefaultEscape = useCallback(() => {
+		if (!document.pointerLockElement) {
+			setState((s) => ({ ...s, menuOpen: true }));
+		}
+	}, []);
+
 	React.useEffect(() => {
-		document.addEventListener('keydown', openClose);
+		document.addEventListener('keydown', open);
+		document.addEventListener('pointerlockchange', detectDefaultEscape);
 
 		return () => {
-			document.removeEventListener('keydown', openClose);
+			document.removeEventListener('keydown', open);
+			document.removeEventListener(
+				'pointerlockchange',
+				detectDefaultEscape,
+			);
 		};
 	}, []);
 
 	React.useEffect(() => {
 		if (state.menuOpen) {
 			events.dispatch({
-				type: 'requestPointerUnlock',
+				type: 'unlockPointer',
 				data: { subscriberName: 'menu' },
 			});
 		} else {
 			events.dispatch({
-				type: 'requestPointerLock',
+				type: 'lockPointer',
 				data: { subscriberName: 'menu' },
 			});
 		}
@@ -44,9 +61,11 @@ const Menu = () => {
 			className="menu"
 			style={{ display: state.menuOpen ? 'flex' : 'none' }}
 		>
-			<div className='menu__interface'>
-        <p className='menu-play'>Click here to play</p>
-      </div>
+			<div className="menu__interface">
+				<p className="menu-play" onClick={close}>
+					Click here to play
+				</p>
+			</div>
 		</div>
 	);
 };
