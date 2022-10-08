@@ -17,7 +17,10 @@ body {
 }
 
 .menu {
-  background-color: rgba(0, 0, 0, 0.3);
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
 
   height: 100%;
   width: 100%;
@@ -25,4 +28,14 @@ body {
   position: fixed;
   left: 0;
   top: 0;
+
+	&__interface {
+    height: max-content;
+    width: max-content;
+	}
+
+  &-play {
+    color: white;
+    font-size: 30px;
+  }
 }

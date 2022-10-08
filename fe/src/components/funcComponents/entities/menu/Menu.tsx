@@ -1,20 +1,23 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { keyMap } from '../../../../constants/defaultSettings';
+import events from '../../../../events/events';
 
 const Menu = () => {
 	const [state, setState] = useState({
 		menuOpen: false,
 	});
 
-	React.useEffect(() => {
-		const openClose = (e: KeyboardEvent): void => {
-			switch (e.key) {
-				case keyMap['menu']:
-					setState({ menuOpen: !state.menuOpen });
-					break;
-			}
-		};
+	const openClose = useCallback((e: KeyboardEvent): void => {
+		switch (e.key) {
+			case keyMap['menu']:
+				setState((s) => {
+					return { ...s, menuOpen: true };
+				});
+				break;
+		}
+	}, []);
 
+	React.useEffect(() => {
 		document.addEventListener('keydown', openClose);
 
 		return () => {
@@ -22,12 +25,28 @@ const Menu = () => {
 		};
 	}, []);
 
+	React.useEffect(() => {
+		if (state.menuOpen) {
+			events.dispatch({
+				type: 'requestPointerUnlock',
+				data: { subscriberName: 'menu' },
+			});
+		} else {
+			events.dispatch({
+				type: 'requestPointerLock',
+				data: { subscriberName: 'menu' },
+			});
+		}
+	}, [state.menuOpen]);
+
 	return (
 		<div
 			className="menu"
-			style={{ display: state.menuOpen ? 'block' : 'none' }}
+			style={{ display: state.menuOpen ? 'flex' : 'none' }}
 		>
-			Menu
+			<div className='menu__interface'>
+        <p className='menu-play'>Click here to play</p>
+      </div>
 		</div>
 	);
 };
