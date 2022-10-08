@@ -4,7 +4,7 @@ import { BasicMovements } from '../../../../types/entities/dynamic';
 import { System } from '../../../../types/systems';
 import { useFrame } from '@react-three/fiber';
 
-type Entity = { scene: Object3D };
+type Entity = { object: Object3D };
 type EState = Record<'action', BasicMovements>;
 
 type State = {
@@ -29,14 +29,14 @@ const BasicMovement: System<Entity, EState> = ({ entity, eState }) => {
 		state.time = s.clock.elapsedTime;
 
 		if (eState.action.forward) {
-			entity.scene.position.z -= state.value;
+			entity.object.position.z -= state.value;
 		} else if (eState.action.backward) {
-			entity.scene.position.z += state.value;
+			entity.object.position.z += state.value;
 		}
 		if (eState.action.right) {
-			entity.scene.position.x += state.value;
+			entity.object.position.x += state.value;
 		} else if (eState.action.left) {
-			entity.scene.position.x -= state.value;
+			entity.object.position.x -= state.value;
 		}
 	});
 

@@ -7,11 +7,11 @@ export type State<Entity, EntityState> =
 	  }
 	| undefined;
 
-export type Props<Entity, EntityState> = {
+export type EntityProps<Entity, EntityState> = {
 	children?: React.ReactNode;
 	getState?: (state: State<Entity, EntityState>) => void;
 };
 
-export type EntityComponent<Entity, EntityState> = (
-	props: Props<Entity, EntityState>,
+export type EntityComponent<Entity, EntityState, Props extends {} = {}> = (
+	props: EntityProps<Entity, EntityState> & Props,
 ) => JSX.Element;

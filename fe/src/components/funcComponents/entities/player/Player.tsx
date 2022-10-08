@@ -1,18 +1,20 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 
 // -- entities
 import Character, * as Character_ from '../character/Character';
+import FirstPersonCamera from '../firstPersonCamera/FirstPersonCamera';
 
 // -- assets
 
 // -- systems
 import InputMovement from '../../systems/inputMovement/InputMovement';
-import { EntityComponent, State } from '../../../../types/entities/component';
-import Camera from '../camera/Camera';
-import { Vector3 } from 'three';
 import InputRotation from '../../systems/inputRotation/InputRotation';
 
+// -- three
+import { Vector3 } from 'three';
+
 // -- utility types
+import { EntityComponent, State } from '../../../../types/entities/component';
 
 // -- component
 const Player: EntityComponent<Character_.Entity, Character_.EState> = (
@@ -30,7 +32,7 @@ const Player: EntityComponent<Character_.Entity, Character_.EState> = (
 		props.getState && props.getState(state);
 	}, [state]);
 
-	const configs = useMemo(
+	const configs = React.useMemo(
 		() => ({ camera: { position: new Vector3(2.5, 10.5, 0) } }),
 		[],
 	);
@@ -39,7 +41,7 @@ const Player: EntityComponent<Character_.Entity, Character_.EState> = (
 		<Character getState={setState}>
 			{!!state && (
 				<>
-					<Camera position={configs.camera.position} />
+					<FirstPersonCamera position={configs.camera.position} />
 					<InputMovement
 						entity={state.entity}
 						eState={state.eState}
@@ -47,6 +49,7 @@ const Player: EntityComponent<Character_.Entity, Character_.EState> = (
 					<InputRotation
 						entity={state.entity}
 						eState={state.eState}
+						direction="horizontal"
 					/>
 				</>
 			)}

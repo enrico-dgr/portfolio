@@ -37,6 +37,13 @@ body {
 
   &-play {
     color: white;
+    cursor: pointer;
     font-size: 30px;
+    padding: 5px 20px;
+
+    &:hover {
+      background-color: white;
+      color: black;
+    }
   }
 }

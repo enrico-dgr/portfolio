@@ -30,7 +30,7 @@ export type EState = {
 
 export type Entity = {
 	actions: AnimationActions;
-	scene: Group;
+	object: Group;
 };
 
 // -- component
@@ -38,7 +38,7 @@ const Character: EntityComponent<Entity, EState> = (props) => {
 	console.log('Render: Character');
 
 	// -- preload
-	const modelGLTF = useGLTF(model) as GLTF;
+	const modelGLTF = useGLTF(model) as unknown as GLTF;
 
 	const actions = useAnimations(modelGLTF.animations, modelGLTF.scene)
 		.actions as AnimationActions;
@@ -46,7 +46,7 @@ const Character: EntityComponent<Entity, EState> = (props) => {
 	const entity = React.useMemo<Entity>(
 		() => ({
 			actions,
-			scene: modelGLTF.scene,
+			object: modelGLTF.scene,
 		}),
 		[],
 	);
