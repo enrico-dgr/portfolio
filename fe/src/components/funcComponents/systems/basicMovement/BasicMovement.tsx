@@ -1,6 +1,9 @@
 import React from 'react';
 import { Object3D, Vector3 } from 'three';
-import { BasicMovements, BasicRotations } from '../../../../types/entities/dynamic';
+import {
+	BasicMovements,
+	BasicRotations,
+} from '../../../../types/entities/dynamic';
 import { System } from '../../../../types/systems';
 import { useFrame } from '@react-three/fiber';
 
@@ -18,7 +21,7 @@ const BasicMovement: System<Entity, EState> = ({ entity, eState }) => {
 	console.log('System: BasicMovement');
 
 	const [state] = React.useState<State>({
-		speed: 8,
+		speed: 10,
 		time: 0,
 		value: 0,
 		vectorBuffer: new Vector3(0, 0, 0),
@@ -28,20 +31,33 @@ const BasicMovement: System<Entity, EState> = ({ entity, eState }) => {
 		state.value = state.speed * (s.clock.elapsedTime - state.time);
 		state.time = s.clock.elapsedTime;
 
-    // state.vectorBuffer.set(
-      
-    // )
+		entity.object.getWorldDirection(state.vectorBuffer);
+		const forward = state.vectorBuffer.clone();
+		const side = state.vectorBuffer
+			.clone()
+			.set(
+				-state.vectorBuffer.z,
+				state.vectorBuffer.y,
+				state.vectorBuffer.x,
+			);
 
 		if (eState.action.forward) {
-			entity.object.position.z -= state.value;
+			forward.multiplyScalar(-state.value);
 		} else if (eState.action.backward) {
-			entity.object.position.z += state.value;
+			forward.multiplyScalar(state.value);
+		} else {
+			forward.multiplyScalar(0);
 		}
+
 		if (eState.action.right) {
-			entity.object.position.x += state.value;
+			side.multiplyScalar(-state.value);
 		} else if (eState.action.left) {
-			entity.object.position.x -= state.value;
+			side.multiplyScalar(state.value);
+		} else {
+			side.multiplyScalar(0);
 		}
+
+		entity.object.position.add(forward).add(side);
 	});
 
 	return <></>;

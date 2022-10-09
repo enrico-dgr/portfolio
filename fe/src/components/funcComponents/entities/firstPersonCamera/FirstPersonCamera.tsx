@@ -26,8 +26,8 @@ const FirstPersonCamera: EntityComponent<
 						entity={state.entity}
 						eState={state.eState}
 						direction="vertical"
-            maxDeltaXAngle={14}
-            minDeltaXAngle={-20}
+            maxDeltaXAngle={18}
+            minDeltaXAngle={-25}
 					/>
           <BasicRotation entity={state.entity} eState={state.eState} />
 				</>
