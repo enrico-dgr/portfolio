@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { keyMap } from '../../../../constants/defaultSettings';
-import events from '../../../../events/events';
+import events from 'events-l/events';
 
 const Menu = () => {
 	const [state, setState] = useState({
@@ -23,6 +23,11 @@ const Menu = () => {
 		});
 	}, []);
 
+  /**
+   * When cursor is locked, first 'Esc' is used only to exit pointer-lock.
+   * Listening to pointerlockchange event ( see below ), avoids menu to remain closed
+   * when unlocking pointer. 
+   */
 	const detectDefaultEscape = useCallback(() => {
 		if (!document.pointerLockElement) {
 			setState((s) => ({ ...s, menuOpen: true }));

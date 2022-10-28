@@ -1,8 +1,8 @@
 import { useFrame } from '@react-three/fiber';
 import React from 'react';
-import { UseAnimationAPI_Action } from '../../../../types/drei';
-import { BasicMovements } from '../../../../types/entities/dynamic';
-import { System, SystemSubState } from '../../../../types/systems';
+import { UseAnimationAPI_Action } from 'types-l/drei';
+import { BasicMovements } from 'types-l/entities/dynamic';
+import { System, SystemSubState } from 'types-l/systems';
 
 type AnimationName = 'walk' | 'idle';
 

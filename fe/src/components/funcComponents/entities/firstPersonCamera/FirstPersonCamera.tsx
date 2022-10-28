@@ -1,14 +1,14 @@
 import React from 'react';
 
 // -- entities
-import Camera, * as Camera_ from '../camera/Camera';
+import Camera, * as Camera_ from 'entities-l/camera/Camera';
 
 // -- systems
-import InputRotation from '../../systems/inputRotation/InputRotation';
+import InputRotation from 'systems-l/inputRotation/InputRotation';
 
 // -- utility types
-import { EntityComponent, State } from '../../../../types/entities/component';
-import BasicRotation from '../../systems/basicRotation/BasicRotation';
+import { EntityComponent, State } from 'types-l/entities/component';
+import BasicRotation from 'systems-l/basicRotation/BasicRotation';
 
 const FirstPersonCamera: EntityComponent<
 	Camera_.Entity,

@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
-import { BasicRotations } from '../../../../types/entities/dynamic';
-import { System } from '../../../../types/systems';
+import { BasicRotations } from 'types-l/entities/dynamic';
+import { System } from 'types-l/systems';
 
 type State = {
 	onMouseMove: (e: MouseEvent) => void;
@@ -38,8 +38,8 @@ const InputRotation: System<Entity, EState, Props> = (props) => {
 	const onMouseMove = React.useCallback(
 		(pS: EState) =>
 			(e: MouseEvent): void => {
-				if (!document.pointerLockElement) {
-					return;
+        if (!document.pointerLockElement) {
+          return;
 				}
 
 				if (props.direction !== 'horizontal') {
@@ -63,8 +63,6 @@ const InputRotation: System<Entity, EState, Props> = (props) => {
 						pS.action.verticalTurn,
 					);
 				}
-
-        console.log(pS.action.horizontalTurn);
 			},
 		[],
 	);

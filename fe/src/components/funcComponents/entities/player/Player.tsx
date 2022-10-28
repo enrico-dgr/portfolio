@@ -1,20 +1,20 @@
 import React from 'react';
 
 // -- entities
-import Character, * as Character_ from '../character/Character';
-import FirstPersonCamera from '../firstPersonCamera/FirstPersonCamera';
+import Character, * as Character_ from 'entities-l/character/Character';
+import FirstPersonCamera from 'entities-l/firstPersonCamera/FirstPersonCamera';
 
 // -- assets
 
 // -- systems
-import InputMovement from '../../systems/inputMovement/InputMovement';
-import InputRotation from '../../systems/inputRotation/InputRotation';
+import InputMovement from 'systems-l/inputMovement/InputMovement';
+import InputRotation from 'systems-l/inputRotation/InputRotation';
 
 // -- three
 import { Vector3 } from 'three';
 
 // -- utility types
-import { EntityComponent, State } from '../../../../types/entities/component';
+import { EntityComponent, State } from 'types-l/entities/component';
 
 // -- component
 const Player: EntityComponent<Character_.Entity, Character_.EState> = (

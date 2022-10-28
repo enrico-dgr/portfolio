@@ -1,8 +1,8 @@
-import React, { Suspense, useEffect } from 'react';
+import React, { Suspense } from 'react';
 
 // three
 import { Html } from '@react-three/drei';
-import { Canvas, useThree } from '@react-three/fiber';
+import { Canvas } from '@react-three/fiber';
 import { DoubleSide, PCFSoftShadowMap, Vector3 } from 'three';
 
 // dat.gui
@@ -13,46 +13,10 @@ import NavSaturn from '../../components/funcComponents/navSaturn/NavSaturn';
 
 // style
 import screenStyles from '../../styles/screenStyles';
-import Player from '../../components/funcComponents/entities/player/Player';
-import Menu from '../../components/funcComponents/entities/menu/Menu';
-import PLController from '../../components/funcComponents/controllers/pointerLockController/PointerLockController';
+import Player from 'entities-l/player/Player';
+import Menu from 'entities-l/menu/Menu';
+import PLController from 'controllers-l/pointerLockController/PointerLockController';
 
-const cameraConfigs = {
-	position: new Vector3(0, 15, 30),
-	aspect: window.innerWidth / window.innerHeight,
-	fov: 50,
-};
-
-const Camera = () => {
-	const { camera } = useThree();
-	useEffect(() => {
-		camera.position.copy(cameraConfigs.position);
-		camera.lookAt(0, 0, 0);
-
-		datGui.develop((gui) => {
-			const folder = gui.addFolder('Camera');
-
-			const positionFolder = folder.addFolder('position');
-			positionFolder
-				.add(cameraConfigs.position, 'x', -200, 200)
-				.onChange(
-					(v) => camera.position.setX(v) && camera.lookAt(0, 0, 0),
-				);
-			positionFolder
-				.add(cameraConfigs.position, 'y', -200, 200)
-				.onChange(
-					(v) => camera.position.setY(v) && camera.lookAt(0, 0, 0),
-				);
-			positionFolder
-				.add(cameraConfigs.position, 'z', -200, 300)
-				.onChange(
-					(v) => camera.position.setZ(v) && camera.lookAt(0, 0, 0),
-				);
-		});
-	}, []);
-	return <></>;
-};
-Camera;
 const lightConfigs = {
 	castShadow: true,
 	color: 0xffffff,
@@ -67,13 +31,14 @@ const Home = () => {
 			<Menu />
 			<Canvas
 				camera={{
-					fov: cameraConfigs.fov,
-					aspect: cameraConfigs.aspect,
+					fov: 50,
+					aspect: window.innerWidth / window.innerHeight,
 					near: 1,
 					far: 10000,
 				}}
 				gl={{
 					antialias: true,
+					pixelRatio: 1.1,
 					shadowMap: {
 						type: PCFSoftShadowMap,
 						autoUpdate: true,

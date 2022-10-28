@@ -1,4 +1,4 @@
-import { ActionName } from '../types/entities/dynamic';
+import { ActionName } from 'types-l/entities/dynamic';
 
 export type KeyMapKeys = Exclude<ActionName, 'idle' | 'horizontalTurn' | 'verticalTurn'> | 'menu';
 

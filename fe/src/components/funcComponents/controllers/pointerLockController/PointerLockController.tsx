@@ -3,7 +3,7 @@ import React, { useCallback, useState, useEffect, useMemo } from 'react';
 import events, {
 	PointerLockEvent,
 	PointerUnlockEvent,
-} from '../../../../events/events';
+} from 'events-l/events';
 
 type State = {
 	requestsToUnlock: string[];

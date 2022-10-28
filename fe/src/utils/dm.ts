@@ -1,6 +1,6 @@
 // data manipulation
 
-import { Position2 } from "../types/data";
+import { Position2 } from 'types-l/data';
 
 /**
  * @description Given a 1-dimension array, calculates the position in a grid ( 2-dim array ).

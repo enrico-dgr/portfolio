@@ -1,8 +1,8 @@
 import React from 'react';
 import { MathUtils, Object3D } from 'three';
-import { System } from '../../../../types/systems';
+import { System } from 'types-l/systems';
 import { useFrame } from '@react-three/fiber';
-import { BasicRotations } from '../../../../types/entities/dynamic';
+import { BasicRotations } from 'types-l/entities/dynamic';
 
 type EState = { action: BasicRotations };
 type Entity = { object: Object3D };

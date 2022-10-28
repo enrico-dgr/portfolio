@@ -1,7 +1,7 @@
 import React from 'react';
 import { keyMap } from '../../../../constants/defaultSettings';
-import { BasicMovements } from '../../../../types/entities/dynamic';
-import { System } from '../../../../types/systems';
+import { BasicMovements } from 'types-l/entities/dynamic';
+import { System } from 'types-l/systems';
 
 type State = {
 	onKeyDown: (e: KeyboardEvent) => void;
@@ -22,6 +22,10 @@ const InputMovement: System<Entity, EState> = ({ eState }) => {
 	const onKeyDown = React.useCallback(
 		(pS: EState) =>
 			(e: KeyboardEvent): void => {
+        if (!document.pointerLockElement) {
+          return;
+				}
+
 				switch (e.key) {
 					case keyMap['forward']:
 						pS.action.forward = true;

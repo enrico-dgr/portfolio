@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { useThree } from '@react-three/fiber';
+import { useThree, Camera as Camera_T } from '@react-three/fiber';
 import { Vector3 } from 'three';
-import { EntityComponent, State } from '../../../../types/entities/component';
-import { BasicRotations } from '../../../../types/entities/dynamic';
-import { Object3D } from 'three/src/Three';
+import { EntityComponent, State } from 'types-l/entities/component';
+import { BasicRotations } from 'types-l/entities/dynamic';
 
 export type Props = {
 	position?: Vector3;
 };
 
 export type Entity = {
-	object: Object3D;
+	object: Camera_T;
 };
 
 export type EState = Record<'action', BasicRotations>;
@@ -19,7 +18,7 @@ const Camera: EntityComponent<Entity, EState, Props> = (props) => {
 	const camera = useThree((s) => s.camera);
 
 	// -- state and rendering
-	const [state] = useState<State<Entity, EState>>({
+	const [state] = useState<Exclude<State<Entity, EState>, undefined>>({
 		entity: {
 			object: camera,
 		},

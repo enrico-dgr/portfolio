@@ -1,6 +1,20 @@
 var path = require('path');
-
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+var tsconfig = require('./tsconfig.json');
+
+var alias = {};
+var paths = tsconfig.compilerOptions.paths;
+
+for (var newAlias in paths) {
+	if (Object.hasOwnProperty.call(paths, newAlias)) {
+		var key = newAlias.replace('/*', '');
+		alias[key] = path.resolve(
+			__dirname,
+			// 'src/components/funcComponents/entities'
+			paths[newAlias][0].replace('/*', '')
+		);
+	}
+}
 
 module.exports = {
 	mode: 'development',
@@ -12,6 +26,7 @@ module.exports = {
 		},
 		compress: true,
 		hot: true,
+		host: '0.0.0.0',
 		port: 9000,
 		historyApiFallback: true,
 	},
@@ -34,6 +49,7 @@ module.exports = {
 		publicPath: '/',
 	},
 	resolve: {
+		alias: alias,
 		extensions: ['.tsx', '.ts', '.js', '.jsx'],
 		fallback: {
 			path: require.resolve('./node_modules/path-browserify'),

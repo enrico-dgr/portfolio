@@ -5,22 +5,22 @@ import { GLTF } from 'three-stdlib';
 // -- entities
 
 // -- assets
-import model from '../../../../assets/models3d/character.glb';
+import model from 'assets-l/models3d/character.glb';
 
 // -- systems
 import Animation from './Animation';
 
 // -- utility types
-import { UseAnimationAPI_Action } from '../../../../types/drei';
+import { UseAnimationAPI_Action } from 'types-l/drei';
 import {
 	AnimationName,
 	BasicMovements,
 	BasicRotations,
-} from '../../../../types/entities/dynamic';
+} from 'types-l/entities/dynamic';
 import { Group } from 'three';
-import BasicMovement from '../../systems/basicMovement/BasicMovement';
-import { EntityComponent, State } from '../../../../types/entities/component';
-import BasicRotation from '../../systems/basicRotation/BasicRotation';
+import BasicMovement from 'systems-l/basicMovement/BasicMovement';
+import { EntityComponent, State } from 'types-l/entities/component';
+import BasicRotation from 'systems-l/basicRotation/BasicRotation';
 
 type AnimationActions = UseAnimationAPI_Action<AnimationName>;
 

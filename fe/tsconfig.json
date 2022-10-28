@@ -1,5 +1,14 @@
 {
 	"compilerOptions": {
+		"baseUrl": ".",
+		"paths": {
+			"entities-l/*": ["src/components/funcComponents/entities/*"],
+      "controllers-l/*": ["./src/components/funcComponents/controllers/*"],
+      "systems-l/*": ["src/components/funcComponents/systems/*"],
+      "types-l/*": ["src/types/*"],
+      "events-l/*": ["src/events/*"],
+      "assets-l/*": ["src/assets/*"]
+		},
 		"noEmit": false,
 		"outDir": "./build",
 		"target": "es5",

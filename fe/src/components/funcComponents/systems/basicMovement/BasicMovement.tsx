@@ -3,8 +3,8 @@ import { Object3D, Vector3 } from 'three';
 import {
 	BasicMovements,
 	BasicRotations,
-} from '../../../../types/entities/dynamic';
-import { System } from '../../../../types/systems';
+} from 'types-l/entities/dynamic';
+import { System } from 'types-l/systems';
 import { useFrame } from '@react-three/fiber';
 
 type Entity = { object: Object3D };

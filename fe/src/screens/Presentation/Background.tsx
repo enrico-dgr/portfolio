@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useFrame } from "@react-three/fiber";
 import { useSpring, animated, config } from "@react-spring/three";
 import { Mesh } from "three";
-import { Position3 } from "../../types/data";
+import { Position3 } from 'types-l/data';
 
 const generatePositions = (
 	numOfPositions: number,

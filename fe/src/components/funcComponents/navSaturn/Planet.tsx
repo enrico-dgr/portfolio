@@ -9,7 +9,7 @@ import {
 } from 'three';
 
 // assets
-import saturn from '../../../assets/textures/saturnmap.jpg';
+import saturn from 'assets-l/textures/saturnmap.jpg';
 
 export type PlanetProps = {
 	saturnRadius: number;

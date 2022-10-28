@@ -10,7 +10,7 @@ import {
 } from 'three';
 
 // assets
-import saturnRing from '../../../assets/textures/saturnringcolor.jpg';
+import saturnRing from 'assets-l/textures/saturnringcolor.jpg';
 
 function mapRingUV(ringGeometry: RingBufferGeometry, ringAvgRadius: number) {
 	const v3 = new Vector3();

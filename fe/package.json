@@ -6,7 +6,7 @@
 	"keywords": [],
 	"author": "enrico-dgr",
 	"scripts": {
-		"dev": "node --max-http-header-size=100385 ./node_modules/webpack-dev-server/bin/webpack-dev-server.js",
+		"dev": "npx webpack serve",
 		"dev-specific": "npx webpack serve --config webpack.dev.config.js",
 		"prebuild": "rimraf build && mkdir ./build && cp ./prodFiles/* ./build",
 		"build": "npx webpack --config ./webpack.prod.config.js",
