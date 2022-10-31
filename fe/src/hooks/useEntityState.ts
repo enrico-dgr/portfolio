@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useState } from 'react';
 import { EntityProps, State } from 'types-l/entities/component';
 
-type Props<Entity extends {}, EState extends {}> = {
+type Props<Entity extends {}, EState extends {}, P extends {}> = {
 	state: State<Entity, EState>;
-	props: EntityProps<Entity, EState>;
+	props: EntityProps<Entity, EState, P>;
 };
 
 /**
@@ -11,8 +11,8 @@ type Props<Entity extends {}, EState extends {}> = {
  * a new state instance if no one is updated from `setState`
  * @param props
  */
-const useEntityState = <Entity extends {}, EState extends {}>(
-	props: Props<Entity, EState>
+const useEntityState = <Entity extends {}, EState extends {}, P extends {}>(
+	props: Props<Entity, EState, P>
 ): [State<Entity, EState>, (s: State<Entity, EState>) => void] => {
 	const [stateHook, setStateHook] = useState(props.state);
 

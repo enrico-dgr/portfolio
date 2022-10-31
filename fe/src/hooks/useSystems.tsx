@@ -2,17 +2,17 @@ import React, { useMemo } from 'react';
 import { EntityProps, State } from 'types-l/entities/component';
 import { System } from 'types-l/systems';
 
-type Props<Entity extends {}, EState extends {}> = {
+type Props<Entity extends {}, EState extends {}, P extends {}> = {
 	systems: System<Entity, EState>[];
 	state: State<Entity, EState>;
-	props: EntityProps<Entity, EState>;
+	props: EntityProps<Entity, EState, P>;
 };
 
-const useSystems = <Entity extends {}, EState extends {}>({
+const useSystems = <Entity extends {}, EState extends {}, P extends {}>({
 	state,
 	systems,
 	props,
-}: Props<Entity, EState>) => {
+}: Props<Entity, EState, P>) => {
 	const systemsHook = useMemo(
 		() =>
 			!state

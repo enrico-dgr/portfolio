@@ -47,7 +47,7 @@ const Character: EntityComponent<Entity, EState> = (props) => {
 
 	// -- state and rendering
 	const [state] = useEntityState({
-		props: props,
+		props,
 		state: {
 			entity: {
 				actions,
