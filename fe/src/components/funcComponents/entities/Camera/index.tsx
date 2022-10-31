@@ -3,29 +3,29 @@ import { useThree, Camera as Camera_T } from '@react-three/fiber';
 import { Vector3 } from 'three';
 import { EntityComponent } from 'types-l/entities/component';
 import { BasicRotations } from 'types-l/entities/dynamic';
-import useEntityState from 'hooks-l/useEntityState';
+import useEntity from 'hooks-l/useEntity';
 
 export type Props = {
 	position?: Vector3;
 };
 
-export type Entity = {
+export type EObjects = {
 	object: Camera_T;
 };
 
 export type EState = Record<'action', BasicRotations>;
 
-const Camera: EntityComponent<Entity, EState, Props> = (props) => {
+const Camera: EntityComponent<EObjects, EState, Props> = (props) => {
 	const camera = useThree((s) => s.camera);
 
 	// -- state and rendering
-	const [] = useEntityState<Entity, EState, Props>({
+	const [] = useEntity<EObjects, EState, Props>({
 		props,
-		state: {
-			entity: {
+		entity: {
+			objects: {
 				object: camera,
 			},
-			eState: {
+			state: {
 				action: {
 					horizontalTurn: 0,
 					verticalTurn: 0,

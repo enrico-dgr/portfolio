@@ -11,7 +11,7 @@ type State = {
 type Entity = {};
 type EState = Record<'action', BasicMovements>;
 
-const InputMovement: System<Entity, EState> = ({ eState }) => {
+const InputMovement: System<Entity, EState> = ({ state: eState }) => {
 	console.log('System: InputMovement');
 
 	const [state] = React.useState<State>({
@@ -22,8 +22,8 @@ const InputMovement: System<Entity, EState> = ({ eState }) => {
 	const onKeyDown = React.useCallback(
 		(pS: EState) =>
 			(e: KeyboardEvent): void => {
-        if (!document.pointerLockElement) {
-          return;
+				if (!document.pointerLockElement) {
+					return;
 				}
 
 				switch (e.key) {
@@ -41,7 +41,7 @@ const InputMovement: System<Entity, EState> = ({ eState }) => {
 						break;
 				}
 			},
-		[],
+		[]
 	);
 
 	const onKeyUp = React.useCallback(
@@ -62,7 +62,7 @@ const InputMovement: System<Entity, EState> = ({ eState }) => {
 						break;
 				}
 			},
-		[],
+		[]
 	);
 
 	React.useEffect(() => {

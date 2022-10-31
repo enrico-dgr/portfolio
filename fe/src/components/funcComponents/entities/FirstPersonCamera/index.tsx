@@ -7,20 +7,17 @@ import Camera, * as Camera_ from 'entities-l/Camera';
 import InputRotation from 'systems-l/InputRotation';
 
 // -- utility types
-import { EntityComponent, State } from 'types-l/entities/component';
+import { EntityComponent } from 'types-l/entities/component';
 import BasicRotation from 'systems-l/BasicRotation';
-import useSystems from 'hooks-l/useSystems';
+import useSystemsConcat from 'hooks-l/useSystemsConcat';
+import { PerspectiveCamera } from '@react-three/drei';
 
 const FirstPersonCamera: EntityComponent<
-	Camera_.Entity,
+	Camera_.EObjects,
 	Camera_.EState,
 	Camera_.Props
 > = (props) => {
-	const [state, setState] =
-		React.useState<State<Camera_.Entity, Camera_.EState>>();
-
-	const systems = useSystems({
-		state,
+	const systems = useSystemsConcat({
 		systems: [
 			InputRotation({
 				direction: 'vertical',
@@ -29,12 +26,12 @@ const FirstPersonCamera: EntityComponent<
 			}),
 			BasicRotation,
 		],
-		props,
+		props: props as typeof PerspectiveCamera,
 	});
 
 	return (
-		<Camera getState={setState} {...props}>
-			{systems}
+		<Camera {...props} systems={systems}>
+			{props.children}
 		</Camera>
 	);
 };

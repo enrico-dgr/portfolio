@@ -2,15 +2,15 @@ import { useMemo } from 'react';
 import { EntityProps } from 'types-l/entities/component';
 import { System } from 'types-l/systems';
 
-type Props<Entity extends {}, EState extends {}, P extends {}> = {
-	systems: System<Entity, EState>[];
-	props: EntityProps<Entity, EState, P>;
+type Props<EObjects extends {}, EState extends {}, P extends {}> = {
+	systems: System<EObjects, EState>[];
+	props: EntityProps<EObjects, EState, P>;
 };
 
-const useSystemsConcat = <Entity extends {}, EState extends {}, P extends {}>({
+const useSystemsConcat = <EObjects extends {}, EState extends {}, P extends {}>({
 	systems,
 	props,
-}: Props<Entity, EState, P>) => {
+}: Props<EObjects, EState, P>) => {
 	const systemsHook = useMemo(
 		() => [...systems, ...(props.systems ?? [])],
 		[]

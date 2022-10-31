@@ -70,9 +70,9 @@ const InputRotation: (props: Props) => System<Entity, EState> =
 		);
 
 		React.useEffect(() => {
-			state.onMouseMove = onMouseMove(p.eState);
-			state.init.horizontalTurn = p.eState.action.horizontalTurn;
-			state.init.verticalTurn = p.eState.action.verticalTurn;
+			state.onMouseMove = onMouseMove(p.state);
+			state.init.horizontalTurn = p.state.action.horizontalTurn;
+			state.init.verticalTurn = p.state.action.verticalTurn;
 
 			if (props.maxDeltaXAngle) {
 				state.xMax =

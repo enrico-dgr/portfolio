@@ -16,7 +16,7 @@ type State = {
 	init: boolean;
 };
 
-const Animation: System<Entity, EState> = ({ entity, eState }) => {
+const Animation: System<Entity, EState> = ({ objects, state: eState }) => {
 	const [state] = React.useState<State>({
 		animation: {
 			cur: 'idle',
@@ -42,7 +42,7 @@ const Animation: System<Entity, EState> = ({ entity, eState }) => {
 
 			actions.idle.play();
 		},
-		[],
+		[]
 	);
 
 	const WalkEnter = React.useCallback(
@@ -60,7 +60,7 @@ const Animation: System<Entity, EState> = ({ entity, eState }) => {
 			actions.walk.crossFadeFrom(prevAnim, 0.5, true);
 			actions.walk.play();
 		},
-		[],
+		[]
 	);
 
 	useFrame(() => {
@@ -81,11 +81,11 @@ const Animation: System<Entity, EState> = ({ entity, eState }) => {
 
 		switch (state.animation.cur) {
 			case 'idle':
-				IdleEnter(state.animation.prev, entity.actions);
+				IdleEnter(state.animation.prev, objects.actions);
 				break;
 
 			case 'walk':
-				WalkEnter(state.animation.prev, entity.actions);
+				WalkEnter(state.animation.prev, objects.actions);
 				break;
 		}
 

@@ -21,7 +21,7 @@ import { Group } from 'three';
 import BasicMovement from 'systems-l/BasicMovement';
 import { EntityComponent } from 'types-l/entities/component';
 import BasicRotation from 'systems-l/BasicRotation';
-import useEntityState from 'hooks-l/useEntityState';
+import useEntity from 'hooks-l/useEntity';
 import useSystems from 'hooks-l/useSystems';
 
 type AnimationActions = UseAnimationAPI_Action<AnimationName>;
@@ -46,14 +46,14 @@ const Character: EntityComponent<Entity, EState> = (props) => {
 		.actions as AnimationActions;
 
 	// -- state and rendering
-	const [state] = useEntityState({
+	const [state] = useEntity({
 		props,
-		state: {
-			entity: {
+		entity: {
+			objects: {
 				actions,
 				object: modelGLTF.scene,
 			},
-			eState: {
+			state: {
 				action: {
 					forward: false,
 					backward: false,
