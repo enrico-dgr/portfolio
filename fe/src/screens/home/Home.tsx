@@ -13,9 +13,9 @@ import NavSaturn from '../../components/funcComponents/navSaturn/NavSaturn';
 
 // style
 import screenStyles from '../../styles/screenStyles';
-import Player from 'entities-l/player/Player';
-import Menu from 'entities-l/menu/Menu';
-import PLController from 'controllers-l/pointerLockController/PointerLockController';
+import Player from 'entities-l/Player';
+import Menu from 'entities-l/Menu';
+import PLController from 'controllers-l/PointerLockController';
 
 const lightConfigs = {
 	castShadow: true,

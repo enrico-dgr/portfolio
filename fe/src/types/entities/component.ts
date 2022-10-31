@@ -1,4 +1,5 @@
 import React from 'react';
+import { System } from 'types-l/systems';
 
 export type State<Entity, EntityState> =
 	| {
@@ -7,11 +8,14 @@ export type State<Entity, EntityState> =
 	  }
 	| undefined;
 
-export type EntityProps<Entity, EntityState> = {
+export type EntityProps<Entity extends {}, EntityState extends {}> = {
 	children?: React.ReactNode;
 	getState?: (state: State<Entity, EntityState>) => void;
+	systems?: System<Entity, EntityState>[];
 };
 
-export type EntityComponent<Entity, EntityState, Props extends {} = {}> = (
-	props: EntityProps<Entity, EntityState> & Props,
-) => JSX.Element;
+export type EntityComponent<
+	Entity extends {},
+	EntityState extends {},
+	Props extends {} = {}
+> = (props: EntityProps<Entity, EntityState> & Props) => JSX.Element;

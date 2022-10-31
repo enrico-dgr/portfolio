@@ -18,9 +18,11 @@ import {
 	BasicRotations,
 } from 'types-l/entities/dynamic';
 import { Group } from 'three';
-import BasicMovement from 'systems-l/basicMovement/BasicMovement';
-import { EntityComponent, State } from 'types-l/entities/component';
-import BasicRotation from 'systems-l/basicRotation/BasicRotation';
+import BasicMovement from 'systems-l/BasicMovement';
+import { EntityComponent } from 'types-l/entities/component';
+import BasicRotation from 'systems-l/BasicRotation';
+import useEntityState from 'hooks-l/useEntityState';
+import useSystems from 'hooks-l/useSystems';
 
 type AnimationActions = UseAnimationAPI_Action<AnimationName>;
 
@@ -43,44 +45,38 @@ const Character: EntityComponent<Entity, EState> = (props) => {
 	const actions = useAnimations(modelGLTF.animations, modelGLTF.scene)
 		.actions as AnimationActions;
 
-	const entity = React.useMemo<Entity>(
-		() => ({
-			actions,
-			object: modelGLTF.scene,
-		}),
-		[],
-	);
-
 	// -- state and rendering
-	const [state] = React.useState<State<Entity, EState>>({
-		entity,
-		eState: {
-			action: {
-				forward: false,
-				backward: false,
-				left: false,
-				right: false,
-				horizontalTurn: 0,
-				verticalTurn: 0,
+	const [state] = useEntityState({
+		props: props,
+		state: {
+			entity: {
+				actions,
+				object: modelGLTF.scene,
+			},
+			eState: {
+				action: {
+					forward: false,
+					backward: false,
+					left: false,
+					right: false,
+					horizontalTurn: 0,
+					verticalTurn: 0,
+				},
 			},
 		},
 	});
 
-	React.useEffect(() => {
-		props.getState && props.getState(state);
-	}, [state]);
+	const systems = useSystems({
+		state,
+		systems: [Animation, BasicMovement, BasicRotation],
+		props,
+	});
 
 	return (
 		<Suspense fallback={null}>
 			<primitive object={modelGLTF.scene}>
 				{props.children}
-				{!!state && (
-					<>
-						<Animation entity={entity} eState={state.eState} />
-						<BasicMovement entity={entity} eState={state.eState} />
-						<BasicRotation entity={entity} eState={state.eState} />
-					</>
-				)}
+				{systems}
 			</primitive>
 		</Suspense>
 	);
