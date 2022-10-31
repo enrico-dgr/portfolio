@@ -10,5 +10,7 @@
 	"repository": {
 		"url": "https://github.com/enrico-dgr/portfolio"
 	},
-	"dependencies": {}
+	"dependencies": {
+		"git-conventional-commits": "^2.1.2"
+	}
 }
