@@ -8,10 +8,9 @@ type State = {
 	onKeyUp: (e: KeyboardEvent) => void;
 };
 
-type Entity = {};
 type EState = Record<'action', BasicMovements>;
 
-const InputMovement: System<Entity, EState> = ({ state: eState }) => {
+const InputMovement: System<{}, EState> = ({ state: eState }) => {
 	console.log('System: InputMovement');
 
 	const [state] = React.useState<State>({

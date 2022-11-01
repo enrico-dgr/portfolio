@@ -22,7 +22,7 @@ const FirstPersonCamera: EntityComponent<
 			InputRotation({
 				direction: 'vertical',
 				maxDeltaXAngle: 18,
-				minDeltaXAngle: -25,
+				minDeltaXAngle: -40,
 			}),
 			BasicRotation,
 		],

@@ -4,6 +4,7 @@ import { Vector3 } from 'three';
 import { EntityComponent } from 'types-l/entities/component';
 import { BasicRotations } from 'types-l/entities/dynamic';
 import useEntity from 'hooks-l/useEntity';
+import useSystems from 'hooks-l/useSystems';
 
 export type Props = {
 	position?: Vector3;
@@ -19,7 +20,7 @@ const Camera: EntityComponent<EObjects, EState, Props> = (props) => {
 	const camera = useThree((s) => s.camera);
 
 	// -- state and rendering
-	const [] = useEntity<EObjects, EState, Props>({
+	const [state] = useEntity<EObjects, EState, Props>({
 		props,
 		entity: {
 			objects: {
@@ -34,12 +35,23 @@ const Camera: EntityComponent<EObjects, EState, Props> = (props) => {
 		},
 	});
 
+	const systems = useSystems({
+		state,
+		systems: [],
+		props,
+	});
+
 	useEffect(() => {
 		props.position && camera.position.copy(props.position);
 		camera.lookAt(camera.position.clone().add(new Vector3(0, 0, -1)));
 	}, []);
 
-	return <primitive object={camera}>{props.children}</primitive>;
+	return (
+		<primitive object={camera}>
+			{props.children}
+			{systems}
+		</primitive>
+	);
 };
 
 export default Camera;

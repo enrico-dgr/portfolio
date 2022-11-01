@@ -16,6 +16,7 @@ import { Vector3 } from 'three';
 // -- utility types
 import { EntityComponent } from 'types-l/entities/component';
 import useSystemsConcat from 'hooks-l/useSystemsConcat';
+import Cursor from 'entities-l/Cursor';
 
 // -- component
 const Player: EntityComponent<Character_.Entity, Character_.EState> = (
@@ -33,14 +34,19 @@ const Player: EntityComponent<Character_.Entity, Character_.EState> = (
 	});
 
 	const configs = React.useMemo(
-		() => ({ camera: { position: new Vector3(2.5, 11, 5) } }),
+		() => ({
+			camera: { position: new Vector3(2.5, 11.2, 2.3) },
+			cursor: { position: new Vector3(0, 0, -1.1) },
+		}),
 		[]
 	);
 
 	return (
 		<Character systems={systems}>
-      {props.children}
-			<FirstPersonCamera position={configs.camera.position} />
+			{props.children}
+			<FirstPersonCamera position={configs.camera.position}>
+				<Cursor position={configs.cursor.position} />
+			</FirstPersonCamera>
 		</Character>
 	);
 };
