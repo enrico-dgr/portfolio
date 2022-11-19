@@ -3,10 +3,25 @@ import { Canvas } from '@react-three/fiber';
 import { DoubleSide, PCFSoftShadowMap, Vector3 } from 'three';
 import Character from 'entities-l/Character';
 import Camera from 'entities-l/Camera';
+import Dropdown from 'gui-l/Dropdown';
 
 const Editor = () => {
 	return (
 		<>
+			<Dropdown
+				sections={[
+					{
+						title: 'First',
+						elements: [
+							<div>Ciau</div>,
+							<div>ASD</div>,
+							<div>LOFOL</div>,
+						],
+					},
+				]}
+				style={{ minWidth: 150, position: 'fixed', top: 10, right: 0 }}
+				uniqueTitle="Test"
+			/>
 			<Canvas
 				camera={{
 					fov: 50,
