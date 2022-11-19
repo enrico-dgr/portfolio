@@ -1,7 +1,10 @@
 const ROUTES = {
 	BASE: '/',
 	HOME: {
-		SELF: 'home',
+		SELF: '/home',
+	},
+	EDITOR: {
+		SELF: '/editor',
 	},
 	HOMEPAGE: {
 		SELF: 'homepage',

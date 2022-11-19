@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 import { Routes } from "@enrico-dgr/vertical-routing-react";
-import Link from "../../components/funcComponents/Link";
+import Link from "../../components/gui/Link";
 import ROUTES from "../../constants/routes";
 import Portfolio from "../Portfolio/Portfolio";
 import Presentation from "../Presentation/Presentation";

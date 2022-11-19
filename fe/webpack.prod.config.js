@@ -6,4 +6,4 @@ var prodConfigs = {
 	devtool: 'source-map',
 };
 
-module.exports = Object.assign(prodConfigs, commonConfigs);
+module.exports = Object.assign(commonConfigs, prodConfigs);

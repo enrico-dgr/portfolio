@@ -1,0 +1,12 @@
+{
+	"singleQuote": true,
+	"trailingComma": "es5",
+	"bracketSpacing": true,
+	"embeddedLanguageFormatting": "auto",
+	"endOfLine": "auto",
+	"htmlWhitespaceSensitivity": "css",
+	"printWidth": 80,
+	"semi": true,
+	"tabWidth": 4,
+	"useTabs": true
+}

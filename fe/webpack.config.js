@@ -19,4 +19,4 @@ var devConfigs = {
 	},
 };
 
-module.exports = Object.assign(devConfigs, commonConfigs);
+module.exports = Object.assign(commonConfigs, devConfigs);

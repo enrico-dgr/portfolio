@@ -1,25 +1,13 @@
-import React from 'react';
-import { System } from 'types-l/systems';
+import { PropsWithChildren } from 'react';
 
-export type Entity<EObjects, EState> =
-	| {
-			objects: EObjects;
-			state: EState;
-	  }
-	| undefined;
+export type EntityComponent<State extends {}, OtherProps extends {} = {}> = (
+	props: PropsWithChildren<
+		{
+			inputSystems?: InputSystem<State>[];
+		} & OtherProps
+	>
+) => JSX.Element;
 
-export type EntityProps<
-	EObjects extends {},
-	EState extends {},
-	Props extends {}
-> = {
-	children?: React.ReactNode;
-	setEntity?: (state: Entity<EObjects, EState>) => void;
-	systems?: System<EObjects, EState>[];
-} & Props;
-
-export type EntityComponent<
-	EObjects extends {},
-	EState extends {},
-	Props extends {} = {}
-> = (props: EntityProps<EObjects, EState, Props>) => JSX.Element;
+export type InputSystem<State extends {}> = (entity: {
+	state: State;
+}) => JSX.Element;

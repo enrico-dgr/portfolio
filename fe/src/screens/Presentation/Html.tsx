@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import { Html as DreiHtml } from "@react-three/drei";
-import Span from "../../components/classComponents/Span/Span";
+import Span from "../../components/gui/Span/Span";
 import { useThree } from "@react-three/fiber";
 
 type Size = "portrait" | "medium" | "big";

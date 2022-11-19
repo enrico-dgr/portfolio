@@ -2,13 +2,18 @@
 	"compilerOptions": {
 		"baseUrl": ".",
 		"paths": {
-			"entities-l/*": ["src/components/funcComponents/entities/*"],
-      "controllers-l/*": ["./src/components/funcComponents/controllers/*"],
-      "systems-l/*": ["src/components/funcComponents/systems/*"],
+      "common-builders/*": ["srcCommon/builders/*"],
+			"common-entities/*": ["srcCommon/entities/*"],
+			"common-systems/*": ["srcCommon/systems/*"],
+			"common-types/*": ["srcCommon/types/*"],
+			"entities-l/*": ["src/components/entities/*"],
+      "controllers-l/*": ["src/components/controllers/*"],
+      "systems-l/*": ["src/components/systems/*"],
       "types-l/*": ["src/types/*"],
       "events-l/*": ["src/events/*"],
       "hooks-l/*": ["src/hooks/*"],
-      "assets-l/*": ["src/assets/*"]
+      "utils-l/*": ["src/utils/*"],
+      "assets-l/*": ["assets/*"]
 		},
 		"noEmit": false,
 		"outDir": "./build",

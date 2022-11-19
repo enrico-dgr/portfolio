@@ -1,11 +1,10 @@
-import { ActionName } from 'types-l/entities/dynamic';
+import { ActionName } from 'common-types/entities';
 
-export type KeyMapKeys = Exclude<ActionName, 'idle' | 'horizontalTurn' | 'verticalTurn'> | 'menu';
+export type KeyMapKeys =
+	| Exclude<ActionName, 'idle' | 'horizontalTurn' | 'verticalTurn'>
+	| 'menu';
 
-export const keyMap: Record<
-	KeyMapKeys,
-	string
-> = {
+export const keyMap: Record<KeyMapKeys, string> = {
 	forward: 'w',
 	backward: 's',
 	left: 'a',
